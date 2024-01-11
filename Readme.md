@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
-* Студент: [Анна Богословская](https://up.htmlacademy.ru/nodejs-api/6/user/979743).
-* Наставник: `Неизвестно`.
+- Студент: [Анна Богословская](https://up.htmlacademy.ru/nodejs-api/6/user/979743).
+- Наставник: `Константин Ильин https://htmlacademy.ru/profile/id2374827`.
 
 ---
 
