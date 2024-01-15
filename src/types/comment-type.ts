@@ -1,5 +1,5 @@
 export type TComment = {
   text: string;
-  commentDate: number; // ?????
+  commentDate: string;
   rating: number;
 }

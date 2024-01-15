@@ -3,7 +3,7 @@ import { CITIES, HOUSING_TYPES, CONVENIENCES } from '../consts.js';
 export type TOffer = {
   name: string;
   description: string;
-  date: number; //&&&&
+  date: string;
   city: typeof CITIES;
   previewImg: string;
   photos: string[];
