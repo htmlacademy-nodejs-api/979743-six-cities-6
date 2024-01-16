@@ -38,7 +38,7 @@ export class VersionCommand implements Command {
   public async execute(..._parameters: string[]): Promise<void> {
     try {
       const version = this.readVersion();
-      console.info(version);
+      console.info('version is ', version);
     } catch (error: unknown) {
       console.error(`Failed to read version from ${this.filePath}`);
 
