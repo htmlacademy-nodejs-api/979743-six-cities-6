@@ -1,10 +1,12 @@
 import { CITIES, HOUSING_TYPES, CONVENIENCES } from '../consts.js';
 
+export type TCity = typeof CITIES;
+
 export type TOffer = {
   name: string;
   description: string;
-  date: string;
-  city: typeof CITIES;
+  date: Date;
+  city: CITIES;
   previewImg: string;
   photos: string[];
   isPremium: boolean;
