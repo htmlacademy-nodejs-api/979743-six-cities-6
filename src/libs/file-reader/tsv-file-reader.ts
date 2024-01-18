@@ -1,7 +1,8 @@
 import { FileReader } from './file-reader.interface.js';
 import { readFileSync } from 'node:fs';
-import { TOffer, TCity, TUser, TComment } from '../../types/index.js';
-import { CITIES } from '../../consts.js';
+import { TOffer } from '../../types/index.js';
+import { City, Convinience, HousingType } from '../../consts.js';
+import { toBoolean } from '../../util.js';
 
 export class TSVFileReader implements FileReader {
   private rawData = ''; // вся информация из файла
@@ -27,18 +28,18 @@ export class TSVFileReader implements FileReader {
         name,
         description,
         date: new Date(createdDate),
-        // city: CITIES.filter((ccity) => ccity.name === city),
-        city: CITIES[type as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
+        city: City[city as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
         previewImg,
         photos: photos.split(';'), // массив фотографий
-        isPremium,
-        isFavorites,
+        isPremium: toBoolean(isPremium),
+        isFavorites: toBoolean(isFavorites),
         rating: Number.parseInt(rating, 10),
-        housingType,
+        housingType: HousingType[housingType as 'Apartment' | 'House' | 'Room' | 'Hotel'],
         rooms: Number.parseInt(rooms, 10),
         adults: Number.parseInt(adults,10),
         price: Number.parseInt(price, 10),
-        conveniences: conveniences.split(';'),
+        conveniences: conveniences.split(';')
+          .map((conv) => Convinience[conv as 'Breakfast' | 'AirConditioning' | 'LaptopWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge']),
         author,
         commentsCount: Number.parseInt(commentsCount, 10),
       }));

@@ -1,6 +1,6 @@
 export const USER_TYPES = ['usual', 'pro'] as const;
 
-export enum CITIES {
+export enum City {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',
@@ -43,6 +43,19 @@ export enum CITIES {
 //   }
 // ] as const;
 
-export const HOUSING_TYPES = ['apartment', 'house', 'room', 'hotel'] as const;
+export enum HousingType {
+  Apartment = 'apartment',
+  House = 'house',
+  Room = 'room',
+  Hotel = 'hotel'
+}
 
-export const CONVENIENCES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'] as const;
+export enum Convinience {
+  Breakfast = 'Breakfast',
+  AirConditioning = 'Air conditioning',
+  LaptopWorkspace = 'Laptop friendly workspace',
+  BabySeat = 'Baby seat',
+  Washer = 'Washer',
+  Towels = 'Towels',
+  Fridge = 'Fridge'
+}

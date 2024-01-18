@@ -1,22 +1,20 @@
-import { CITIES, HOUSING_TYPES, CONVENIENCES } from '../consts.js';
-
-export type TCity = typeof CITIES;
+import { City, HousingType, Convinience } from '../consts.js';
 
 export type TOffer = {
   name: string;
   description: string;
   date: Date;
-  city: CITIES;
+  city: City;
   previewImg: string;
   photos: string[];
   isPremium: boolean;
   isFavorites: boolean;
   rating: number;
-  housingType: typeof HOUSING_TYPES;
+  housingType: HousingType;
   rooms: number;
   adults: number;
   price: number;
-  conveniences: typeof CONVENIENCES;
+  conveniences: Convinience[];
   author: string;
   commentsCount: number;
 }
