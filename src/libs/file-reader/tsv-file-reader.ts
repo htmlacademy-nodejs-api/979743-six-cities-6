@@ -5,10 +5,10 @@ import { City, Convinience, HousingType } from '../../consts.js';
 import { toBoolean } from '../../util.js';
 
 export class TSVFileReader implements FileReader {
-  private rawData = ''; // вся информация из файла
+  private rawData = '';
 
   constructor(
-    private readonly filename: string // путь к файлу
+    private readonly filename: string
   ) {}
 
   public read(): void {
@@ -21,8 +21,8 @@ export class TSVFileReader implements FileReader {
     }
 
     return this.rawData
-      .split('\n') // возвращает массив строк
-      .filter((row) => row.trim().length > 0) // тримим последнюю пустую строку
+      .split('\n')
+      .filter((row) => row.trim().length > 0)
       .map((line) => line.split('\t')) //
       .map(([name, description, createdDate, city, previewImg, photos, isPremium, isFavorites, rating, housingType, rooms, adults, price, conveniences, author, commentsCount]) => ({
         name,
@@ -30,7 +30,7 @@ export class TSVFileReader implements FileReader {
         date: new Date(createdDate),
         city: City[city as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
         previewImg,
-        photos: photos.split(';'), // массив фотографий
+        photos: photos.split(';'),
         isPremium: toBoolean(isPremium),
         isFavorites: toBoolean(isFavorites),
         rating: Number.parseInt(rating, 10),
