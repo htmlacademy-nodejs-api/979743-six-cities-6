@@ -8,7 +8,7 @@ function bootstrap() {
     new ImportCommand(),
   ]);
 
-  cliApplication.processCommand(process.argv); // process - штатный объект node
+  cliApplication.processCommand(process.argv);
 }
 
 bootstrap();

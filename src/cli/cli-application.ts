@@ -1,29 +1,21 @@
-// регистрирует список команд
-// принимает массив сущностей с интерфейсом Command, сохраняет словарь: {имя команды: класс Command}
-// запускает соответствующую команду
-
 import { Command } from './command/command.interface.js';
 import { CommandParser } from './command-parser.js';
-
-type TCommandCollection = Record<string, Command>; //объект, ключ = имя команды = string
+import { HELP_COMMAND } from '../consts.js';
 
 export class CLIApplication {
-  private commands: TCommandCollection = {}; // словарь зарегистрированных команд
-
-  constructor(
-    private readonly defaultCommand: string = '--help'
-  ) {}
+  private commands: Record<string, Command> = {};
+  private readonly defaultCommand: string = HELP_COMMAND;
 
   public registerCommands(commandList: Command[]): void {
     commandList.forEach((command) => {
-      if (Object.hasOwn(this.commands, command.getName())) {
-        throw new Error(`Command ${command.getName()} is already registered`); // исключаем повторную регистрацию
+      if (Object.hasOwn(this.commands, command.name)) {
+        throw new Error(`Command ${command.name} is already registered`); // исключаем повторную регистрацию
       }
-      this.commands[command.getName()] = command;
+      this.commands[command.name] = command;
     });
   }
 
-  public getDefaultCommand(): Command | never {
+  public getDefaultCommand(): Command {
     if (! this.commands[this.defaultCommand]) {
       throw new Error(`The default command (${this.defaultCommand}) is not registered.`);
     }
@@ -31,11 +23,11 @@ export class CLIApplication {
   }
 
   public getCommand(commandName: string): Command {
-    return this.commands[commandName] ?? this.getDefaultCommand(); // если commands[commandName] = null и не undefined, возвр defaultCommand
+    return this.commands[commandName] ?? this.getDefaultCommand();
   }
 
-  public processCommand(argv: string[]): void { // на основе польз ввода находит команду, выделяет параметры и запускает ее  этими параметрами
-    const parsedCommand = CommandParser.parse(argv); //возвращает объект: {имя команды: [параметры]}
+  public processCommand(argv: string[]): void {
+    const parsedCommand = CommandParser.parse(argv);
     const [commandName] = Object.keys(parsedCommand);
     const command = this.getCommand(commandName);
     const commandArguments = parsedCommand[commandName] ?? [];

@@ -1,18 +1,14 @@
-// разбирает пользовательский ввод
-// принимает массив строк: команд и аргументов, возвращает объект: {имя команды: [параметры]}
-type TParsedCommand = Record<string, string[]>
-
 export class CommandParser {
-  static parse(cliArguments: string[]): TParsedCommand {
-    const parsedCommand: TParsedCommand = {};
+  static parse(cliArguments: string[]): Record<string, string[]> {
+    const parsedCommand: Record<string, string[]> = {};
     let currentCommand = '';
 
-    for (const argument of cliArguments) { // почему не map?
+    for (const argument of cliArguments) {
       if (argument.startsWith('--')) {
-        parsedCommand[argument] = []; // создаем в словаре ключ = имя команды
+        parsedCommand[argument] = [];
         currentCommand = argument;
       } else if (currentCommand && argument) {
-        parsedCommand[currentCommand].push(argument); // параметры, кот-е следуют непоср-нно за командой в польз вводе
+        parsedCommand[currentCommand].push(argument);
       }
     }
 
