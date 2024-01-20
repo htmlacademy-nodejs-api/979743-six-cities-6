@@ -1,7 +1,6 @@
-import { FileReader } from './file-reader.interface.js';
 import { readFileSync } from 'node:fs';
-import { TOffer } from '../../types/index.js';
-import { City, Convinience, HousingType } from '../../consts.js';
+import { FileReader } from './file-reader.interface.js';
+import { IOffer, ECity, EConvinience, EHousingType } from '../../types/index.js';
 import { toBoolean } from '../../util.js';
 
 export class TSVFileReader implements FileReader {
@@ -15,7 +14,7 @@ export class TSVFileReader implements FileReader {
     this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
   }
 
-  public toArray(): TOffer[] {
+  public toArray(): IOffer[] {
     if (!this.rawData) {
       throw new Error('File was not read');
     }
@@ -23,23 +22,23 @@ export class TSVFileReader implements FileReader {
     return this.rawData
       .split('\n')
       .filter((row) => row.trim().length > 0)
-      .map((line) => line.split('\t')) //
+      .map((line) => line.split('\t'))
       .map(([name, description, createdDate, city, previewImg, photos, isPremium, isFavorites, rating, housingType, rooms, adults, price, conveniences, author, commentsCount]) => ({
         name,
         description,
         date: new Date(createdDate),
-        city: City[city as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
+        city: city as ECity,
         previewImg,
         photos: photos.split(';'),
         isPremium: toBoolean(isPremium),
         isFavorites: toBoolean(isFavorites),
         rating: Number.parseInt(rating, 10),
-        housingType: HousingType[housingType as 'Apartment' | 'House' | 'Room' | 'Hotel'],
+        housingType: housingType as EHousingType,
         rooms: Number.parseInt(rooms, 10),
         adults: Number.parseInt(adults,10),
         price: Number.parseInt(price, 10),
         conveniences: conveniences.split(';')
-          .map((conv) => Convinience[conv as 'Breakfast' | 'AirConditioning' | 'LaptopWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge']),
+          .map((conv) => EConvinience[conv as 'BREAKFAST' | 'AIRCONDITIONING' | 'LAPTOPWORKSPACE' | 'BABYSEAT' | 'WASHER' | 'TOWELS' | 'FRIDGE']),
         author,
         commentsCount: Number.parseInt(commentsCount, 10),
       }));

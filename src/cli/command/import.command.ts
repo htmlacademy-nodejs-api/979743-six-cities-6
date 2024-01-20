@@ -1,7 +1,6 @@
 import { Command } from './command.interface.js';
-import { IMPORT_COMMAND } from '../../consts.js';
+import { IMPORT_COMMAND } from './consts.js';
 import { TSVFileReader } from '../../libs/file-reader/tsv-file-reader.js';
-import chalk from 'chalk';
 
 export class ImportCommand implements Command {
   public get name(): string {
@@ -10,6 +9,10 @@ export class ImportCommand implements Command {
 
   public execute(...parameters: string[]): void {
     const [filename] = parameters;
+    if(!filename) {
+      console.error('Не указан путь к файлу');
+      return;
+    }
     const fileReader = new TSVFileReader(filename.trim());
 
     try {
@@ -20,8 +23,8 @@ export class ImportCommand implements Command {
         throw err;
       }
 
-      console.error(chalk.red(`Can't import data from file: ${filename}`));
-      console.error(chalk.red(`Details: ${err.message}`));
+      console.error(`Can't import data from file: ${filename}`);
+      console.error(`Details: ${err.message}`);
     }
   }
 }

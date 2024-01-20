@@ -1,6 +1,6 @@
 import { Command } from './command/command.interface.js';
 import { CommandParser } from './command-parser.js';
-import { HELP_COMMAND } from '../consts.js';
+import { HELP_COMMAND } from './command/consts.js';
 
 export class CLIApplication {
   private commands: Record<string, Command> = {};

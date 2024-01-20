@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Command } from './command.interface.js';
-import { VERSION_COMMAND } from '../../consts.js';
+import { VERSION_COMMAND } from './consts.js';
 
 type TPackageJSONConfig = {
   version: string;
@@ -25,7 +25,7 @@ export class VersionCommand implements Command {
     const importedContent: unknown = JSON.parse(jsonContent);
 
     if (! isPackageJSONConfig(importedContent)) {
-      throw new Error(chalk.red('Failed to parse json content.'));
+      throw new Error('Failed to parse json content.');
     }
 
     return importedContent.version;
@@ -38,12 +38,12 @@ export class VersionCommand implements Command {
   public async execute(..._parameters: string[]): Promise<void> {
     try {
       const version = this.readVersion();
-      console.info(chalk.green('version is '), chalk.green(version));
+      console.info('version is ', chalk.green(version));
     } catch (error: unknown) {
-      console.error(chalk.red(`Failed to read version from ${this.filePath}`));
+      console.error(`Failed to read version from ${this.filePath}`);
 
       if (error instanceof Error) {
-        console.error(chalk.red(error.message));
+        console.error(error.message);
       }
     }
   }
