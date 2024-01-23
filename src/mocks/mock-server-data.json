@@ -1,0 +1,91 @@
+{
+  "api": {
+    "name": [
+      "Beautiful & luxurious apartment at great location",
+      "Wood and stone place",
+      "Canal View Prinsengracht",
+      "Nice, cozy, warm big bed apartment",
+      "Earls Court East Serviced ApartmentsOpens in new window",
+      "Cove Landmark Pinnacle",
+      "Crane Court by City2Stay"
+    ],
+    "description": [
+      "A quiet cozy and picturesque that hides behind a a river by the unique lightness of city",
+      "The building is green and from 18th century.",
+      "An independent House, strategically located between Rembrand Square and National Opera.",
+      "GuestReady - Apartment Near Bercy Park",
+      "Newly Remodeled Dream Condominiun in Kifisia with Garden & Grass Lawn",
+      "Located on the ground floor, this spacious apartment comes with 2 bedrooms, a well-equipped kitchen with a dishwasher and an oven",
+      "The spacious apartment comes with 1 bedroom, a flat-screen TV with streaming services and a fully equipped kitchen",
+      "Featuring a well-fitted kitchen with an oven and a microwave, each unit also comes with a safety deposit box, a satellite flat-screen TV, ironing facilities."
+    ],
+    "date": [
+
+    ],
+    "city": [
+      "Paris",
+      "Cologne",
+      "Brussels",
+      "Amsterdam",
+      "Hamburg",
+      "Dusseldorf"
+    ],
+    "previewImg": [
+      "bedroom.jpg",
+      "living-room.jpg",
+      "cabinet.jpg",
+      "dining-room.jpg",
+      "hall.jpg",
+      "bathroom.jpg",
+      "kitchen.jpg"
+    ],
+    "housingType": [
+      "apartment",
+      "house",
+      "room",
+      "hotel"
+    ],
+    "conveniences": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "users": [
+      "John Nash",
+      "Lothar Collatz",
+      "Pierre de Ferma",
+      "Leonhard Euler",
+      "John Wick",
+      "Mia Wallace",
+      "Vincent Vega",
+      "Salvador Dali"
+    ],
+    "emails": [
+      "snow@pisem.local",
+      "president@dka.local",
+      "fish@big.local",
+      "test@pisem.local",
+      "freedom@pisem.local",
+      "rolan@pochta.local",
+      "author@mir.local",
+      "test@lost.loca",
+      "kujo-fan@story.local"
+    ],
+    "avatars": [
+      "user.jpg",
+      "photo.jpg",
+      "awesome-avatar.jpg",
+      "roland.jpg",
+      "smite.jpg",
+      "coffee.jpg"
+    ],
+    "userTypes": [
+      "обычный",
+      "pro"
+    ]
+  }
+}
