@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
 import { TMockServerData } from '../../types/index.js';
-import { getRandomItem, generateRandomValue } from '../../util.js';
+import { getRandomItem, generateRandomValue } from '../../helpers/common.js';
 import { MIN_PRICE, MAX_PRICE, FIRST_WEEK_DAY, LAST_WEEK_DAY, MAX_ROOMS, MAX_ADULTS, MAX_RATING, MAX_COMMENT_COUNT, MAX_PHOTO_NUMBER, PHOTOS_COUNT } from './consts.js';
 
 export class TSVOfferGenerator implements OfferGenerator {
@@ -51,6 +51,6 @@ export class TSVOfferGenerator implements OfferGenerator {
       author,
       commentsCount
     ]
-      .join('/t');
+      .join('\t');
   }
 }

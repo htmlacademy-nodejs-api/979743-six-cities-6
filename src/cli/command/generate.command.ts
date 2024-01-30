@@ -1,9 +1,11 @@
 import got from 'got';
-import { appendFile } from 'node:fs';
+// import { appendFile } from 'node:fs';
 import { Command } from './command.interface.js';
 import { GENERATE_COMMAND } from './consts.js';
 import { TMockServerData } from '../../types/index.js';
 import { TSVOfferGenerator } from '../../libs/offer-generator/index.js';
+import { getErrorMessage } from '../../helpers/common.js';
+import { TSVFileWriter } from '../../libs/file-writer/tsv-file-writer.js';
 
 export class GenerateCommand implements Command {
   private initialData: TMockServerData; // это данные-заготовки, из которых будем лепить строку
@@ -18,23 +20,10 @@ export class GenerateCommand implements Command {
 
   private async write(filepath: string, offerCount: number) {
     const tsvOfferGenerator = new TSVOfferGenerator(this.initialData);
+    const tsvFileWriter = new TSVFileWriter(filepath);
+
     for (let i = 0; i < offerCount; i++) {
-      // await appendFile(
-      //   filepath,
-      //   `${tsvOfferGenerator.generate()}\n`,
-      //  { encoding: 'utf8' }
-      // );
-      await appendFile(
-        filepath,
-        `${tsvOfferGenerator.generate()}\n`,
-        {encoding: 'utf8'},
-        (err) => {
-          if (err) {
-            throw err;
-          }
-          console.log('строка записана в файл');
-        }
-      );
+      await tsvFileWriter.write(tsvOfferGenerator.generate());
     }
   }
 
@@ -53,9 +42,7 @@ export class GenerateCommand implements Command {
     } catch (error: unknown) {
       console.error('Can\'t generate data');
 
-      if (error instanceof Error) {
-        console.error(error.message);
-      }
+      console.error(getErrorMessage(error));
     }
 
   }
