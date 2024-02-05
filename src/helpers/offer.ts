@@ -1,7 +1,7 @@
 import { IOffer, ECity, EHousingType, EConvinience } from '../types/index.js';
 import { toBoolean } from './common.js';
 
-export function createOffer(offerData: string): IOffer { // на входе ОДНА строка
+export function createOffer(offerData: string): IOffer {
   const [
     name,
     description,

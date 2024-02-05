@@ -14,7 +14,8 @@ export class TSVOfferGenerator implements OfferGenerator {
       .subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day')
       .toISOString();
     const city = getRandomItem<string>(this.mockData.city);
-    const previewImg = getRandomItem<string>(this.mockData.city);
+    const previewImg = `${city}-image.jpg`;
+
     const photos = Array.from(
       { length: PHOTOS_COUNT },
       () => `photo${generateRandomValue(0, MAX_PHOTO_NUMBER)}.jpg`
@@ -27,8 +28,8 @@ export class TSVOfferGenerator implements OfferGenerator {
     const adults = generateRandomValue(1, MAX_ADULTS);
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
     const conveniences = Array.from(
-      { length: generateRandomValue(0, this.mockData.conveniences.length) },
-      () => this.mockData.conveniences[generateRandomValue(0, this.mockData.conveniences.length - 1)]
+      { length: generateRandomValue(1, this.mockData.conveniences.length) },
+      () => this.mockData.conveniences[generateRandomValue(1, this.mockData.conveniences.length - 1)]
     ).join(';');
     const author = getRandomItem<string>(this.mockData.users);
     const commentsCount = generateRandomValue(0, MAX_COMMENT_COUNT);

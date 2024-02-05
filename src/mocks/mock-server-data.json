@@ -43,13 +43,13 @@
       "hotel"
     ],
     "conveniences": [
-      "Breakfast",
-      "Air conditioning",
-      "Laptop friendly workspace",
-      "Baby seat",
-      "Washer",
-      "Towels",
-      "Fridge"
+      "BREAKFAST",
+      "AIRCONDITIONING",
+      "LAPTOPWORKSPACE",
+      "BABYSEAT",
+      "WASHER",
+      "TOWELS",
+      "FRIDGE"
     ],
     "users": [
       "John Nash",

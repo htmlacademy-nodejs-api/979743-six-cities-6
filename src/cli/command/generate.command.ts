@@ -8,7 +8,7 @@ import { getErrorMessage } from '../../helpers/common.js';
 import { TSVFileWriter } from '../../libs/file-writer/tsv-file-writer.js';
 
 export class GenerateCommand implements Command {
-  private initialData: TMockServerData; // это данные-заготовки, из которых будем лепить строку
+  private initialData: TMockServerData;
 
   private async load(url: string) {
     try {
