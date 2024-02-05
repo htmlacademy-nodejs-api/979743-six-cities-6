@@ -1,46 +1,36 @@
-import { readFileSync } from 'node:fs';
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
-import { IOffer, ECity, EConvinience, EHousingType } from '../../types/index.js';
-import { toBoolean } from '../../util.js';
 
-export class TSVFileReader implements FileReader {
-  private rawData = '';
+const CHUNK_SIZE = 16384;
 
-  constructor(
-    private readonly filename: string
-  ) {}
-
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
+export class TSVFileReader extends EventEmitter implements FileReader {
+  constructor(private readonly filename: string) {
+    super();
   }
 
-  public toArray(): IOffer[] {
-    if (!this.rawData) {
-      throw new Error('File was not read');
+  public async read(): Promise<void> {
+    const readStream = createReadStream(this.filename, {
+      highWaterMark: CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
+
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim().length > 0)
-      .map((line) => line.split('\t'))
-      .map(([name, description, createdDate, city, previewImg, photos, isPremium, isFavorites, rating, housingType, rooms, adults, price, conveniences, author, commentsCount]) => ({
-        name,
-        description,
-        date: new Date(createdDate),
-        city: city as ECity,
-        previewImg,
-        photos: photos.split(';'),
-        isPremium: toBoolean(isPremium),
-        isFavorites: toBoolean(isFavorites),
-        rating: Number.parseInt(rating, 10),
-        housingType: housingType as EHousingType,
-        rooms: Number.parseInt(rooms, 10),
-        adults: Number.parseInt(adults,10),
-        price: Number.parseInt(price, 10),
-        conveniences: conveniences.split(';')
-          .map((conv) => EConvinience[conv as 'BREAKFAST' | 'AIRCONDITIONING' | 'LAPTOPWORKSPACE' | 'BABYSEAT' | 'WASHER' | 'TOWELS' | 'FRIDGE']),
-        author,
-        commentsCount: Number.parseInt(commentsCount, 10),
-      }));
+    this.emit('end', importedRowCount);
   }
 }
