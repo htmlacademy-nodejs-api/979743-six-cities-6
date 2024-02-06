@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
 import { TMockServerData } from '../../types/index.js';
 import { getRandomItem, generateRandomValue } from '../../helpers/common.js';
-import { MIN_PRICE, MAX_PRICE, FIRST_WEEK_DAY, LAST_WEEK_DAY, MAX_ROOMS, MAX_ADULTS, MAX_RATING, MAX_COMMENT_COUNT, MAX_PHOTO_NUMBER, PHOTOS_COUNT } from './consts.js';
+import { Price, WeekDay, MaxValue, MAX_COMMENT_COUNT, MAX_PHOTO_NUMBER, PHOTOS_COUNT } from './consts.js';
 
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: TMockServerData) {}
@@ -11,7 +11,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const name = getRandomItem<string>(this.mockData.name);
     const description = getRandomItem<string>(this.mockData.description);
     const createdDate = dayjs()
-      .subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day')
+      .subtract(generateRandomValue(WeekDay.FIRST, WeekDay.LAST), 'day')
       .toISOString();
     const city = getRandomItem<string>(this.mockData.city);
     const previewImg = `${city}-image.jpg`;
@@ -22,11 +22,11 @@ export class TSVOfferGenerator implements OfferGenerator {
     ).join(';');
     const isPremium = getRandomItem<string>(['true', 'false']);
     const isFavorites = getRandomItem<string>(['true', 'false']);
-    const rating = generateRandomValue(1, MAX_RATING, 1);
+    const rating = generateRandomValue(1, MaxValue.RATING, 1);
     const housingType = getRandomItem<string>(this.mockData.housingType);
-    const rooms = generateRandomValue(1, MAX_ROOMS);
-    const adults = generateRandomValue(1, MAX_ADULTS);
-    const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
+    const rooms = generateRandomValue(1, MaxValue.ROOMS);
+    const adults = generateRandomValue(1, MaxValue.ADULTS);
+    const price = generateRandomValue(Price.MIN, Price.MAX);
     const conveniences = Array.from(
       { length: generateRandomValue(1, this.mockData.conveniences.length) },
       () => this.mockData.conveniences[generateRandomValue(1, this.mockData.conveniences.length - 1)]
