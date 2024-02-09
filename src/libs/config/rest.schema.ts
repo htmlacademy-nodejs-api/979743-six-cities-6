@@ -1,13 +1,8 @@
 import convict from 'convict';
 import validator from 'convict-format-with-validator';
+import { TRestSchema } from '../../types/index.js';
 
 convict.addFormats(validator);
-
-export type TRestSchema = {
-  PORT: number;
-  SALT: string;
-  DB_HOST: string;
-}
 
 export const configRestSchema = convict<TRestSchema>({
   PORT: {

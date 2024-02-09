@@ -2,7 +2,8 @@ import { config } from 'dotenv';
 import { inject, injectable } from 'inversify';
 import { Config } from './config.interface.js';
 import { Logger } from '../logger/index.js';
-import { configRestSchema, TRestSchema } from './rest.schema.js';
+import { configRestSchema } from './rest.schema.js';
+import { TRestSchema } from '../../types/index.js';
 import { Component } from '../../types/index.js';
 
 @injectable()

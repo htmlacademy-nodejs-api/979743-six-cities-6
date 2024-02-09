@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Logger } from '../libs/logger/index.js';
-import { Config, TRestSchema } from '../libs/config/index.js';
+import { Config } from '../libs/config/index.js';
+import { TRestSchema } from '../types/index.js';
 import { Component } from '../types/index.js';
 
 @injectable()

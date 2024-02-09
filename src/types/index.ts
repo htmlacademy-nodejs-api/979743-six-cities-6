@@ -6,3 +6,4 @@ export * from './housing-type.js';
 export * from './convinience-type.js';
 export * from './mock-server-data-type.js';
 export * from './component-enum.js';
+export * from './rest-schema-type.js';
