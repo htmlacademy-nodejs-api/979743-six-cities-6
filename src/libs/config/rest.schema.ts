@@ -9,7 +9,7 @@ export const configRestSchema = convict<TRestSchema>({
     doc: 'Port for incoming connections',
     format: 'port',
     env: 'PORT',
-    default: 4000
+    default: null
   },
   SALT: {
     doc: 'Salt for password hash',
@@ -21,6 +21,6 @@ export const configRestSchema = convict<TRestSchema>({
     doc: 'IP address of the database server (MongoDB)',
     format: 'ipaddress',
     env: 'DB_HOST',
-    default: '127.0.0.1'
+    default: null
   },
 });
