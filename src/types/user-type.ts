@@ -4,7 +4,6 @@ export type TUser = {
   name: string;
   email: string;
   avatar?: string;
-  password: string;
+  // password: string;
   userType: typeof USER_TYPES;
 }
-

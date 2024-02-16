@@ -5,6 +5,7 @@ import { TRestSchema } from '../types/index.js';
 import { Component } from '../types/index.js';
 import { DatabaseClient } from '../libs/db-client/index.js';
 import { getMongoURI } from '../helpers/index.js';
+// import { UserModel } from '../libs/models/user/user.entity.js';
 
 @injectable()
 export class RestApplication {
@@ -33,5 +34,6 @@ export class RestApplication {
     this.logger.info('Init database…');
     await this.initDb();
     this.logger.info('Init database completed');
+
   }
 }
