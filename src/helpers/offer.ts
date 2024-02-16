@@ -3,7 +3,7 @@ import { toBoolean } from './common.js';
 
 export function createOffer(offerData: string): IOffer {
   const [
-    name,
+    title,
     description,
     createdDate,
     city,
@@ -17,12 +17,12 @@ export function createOffer(offerData: string): IOffer {
     adults,
     price,
     conveniences,
-    author,
+    authorID,
     commentsCount
   ] = offerData.replace('\n', '').split('\t');
 
   return {
-    name,
+    title,
     description,
     date: new Date(createdDate),
     city: city as ECity,
@@ -37,7 +37,7 @@ export function createOffer(offerData: string): IOffer {
     price: Number.parseInt(price, 10),
     conveniences: conveniences.split(';')
       .map((conv) => EConvinience[conv as 'BREAKFAST' | 'AIRCONDITIONING' | 'LAPTOPWORKSPACE' | 'BABYSEAT' | 'WASHER' | 'TOWELS' | 'FRIDGE']),
-    author,
+    authorID,
     commentsCount: Number.parseInt(commentsCount, 10),
   };
 }

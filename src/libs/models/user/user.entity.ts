@@ -1,6 +1,5 @@
 import { defaultClasses, getModelForClass, prop, modelOptions } from '@typegoose/typegoose';
-import { USER_TYPES } from '../../../consts.js';
-import { TUser } from '../../../types/index.js';
+import { TUser, EUserKind } from '../../../types/index.js';
 import { createSHA256 } from '../../../helpers/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -47,8 +46,12 @@ export class UserEntity extends defaultClasses.TimeStamps implements TUser {
     return this.password;
   }
 
-  @prop({ required: true })
-  public userType: typeof USER_TYPES;
+  @prop({
+    required: true,
+    type: () => String,
+    enum: EUserKind
+  })
+  public userType: EUserKind;
 }
 
 export const UserModel = getModelForClass(UserEntity);
