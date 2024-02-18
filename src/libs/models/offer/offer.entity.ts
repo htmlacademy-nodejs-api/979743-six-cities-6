@@ -3,7 +3,6 @@ import { ECity, EConvinience, EHousingType } from '../../../types/index.js';
 import { MaxValue, MIN_VALUE, OfferDescriptionLength, OfferTitleLength, Price } from '../../../const.js';
 import { UserEntity } from '../user/user.entity.js';
 
-
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
 
@@ -22,7 +21,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     minlength: OfferTitleLength.MIN,
     maxlength: OfferTitleLength.MAX,
   })
-  public title: string;
+  public title!: string;
 
   @prop({
     trim: true,
@@ -30,80 +29,80 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     minlength: OfferDescriptionLength.MIN,
     maxlength: OfferDescriptionLength.MAX,
   })
-  public description: string;
+  public description!: string;
 
   @prop({ required: true })
-  public date: Date;
+  public date!: Date;
 
   @prop({
     required: true,
     type: () => String,
     enum: ECity,
   })
-  public city: ECity;
+  public city!: ECity;
 
   @prop({ required: true })
-  public previewImg: string;
+  public previewImg!: string;
 
   @prop({ required: true })
-  public photos: string[];
+  public photos!: string[];
 
   @prop({ required: true })
-  public isPremium: boolean;
+  public isPremium!: boolean;
 
   @prop({ required: true })
-  public isFavorites: boolean;
+  public isFavorites!: boolean;
 
   @prop({
     required: true,
     min: MIN_VALUE,
     max: MaxValue.RATING,
   })
-  public rating: number;
+  public rating!: number;
 
   @prop({
     required: true,
     type: () => String,
     enum: EHousingType,
   })
-  public housingType: EHousingType;
+  public housingType!: EHousingType;
 
   @prop({
     required: true,
     min: MIN_VALUE,
     max: MaxValue.ROOMS,
   })
-  public rooms: number;
+  public rooms!: number;
 
   @prop({
     required: true,
     min: MIN_VALUE,
     max: MaxValue.ADULTS,
   })
-  public adults: number;
+  public adults!: number;
 
   @prop({
     required: true,
     min: Price.MIN,
     max: Price.MAX,
   })
-  public price: number;
+  public price!: number;
 
   @prop({
     required: true,
     type: () => String,
     enum: EConvinience,
   })
-  public conveniences: EConvinience[];
+  public conveniences!: EConvinience[];
 
   @prop({
     ref: UserEntity,
     required: true,
   })
-  public authorID: Ref<UserEntity>; // строка ID или объект user со всеми данными? // TODO
+  public authorID!: Ref<UserEntity>; // строка ID или объект user со всеми данными? // TODO
 
   @prop({default: 0})
-  public commentsCount: number;
+  public commentsCount!: number;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

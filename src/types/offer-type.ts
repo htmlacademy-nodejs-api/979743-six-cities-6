@@ -1,6 +1,7 @@
 import { ECity } from './city-enam.js';
 import { EHousingType } from './housing-type.js';
 import { EConvinience } from './convinience-type.js';
+import { TUser } from './user-type.js';
 
 export interface IOffer {
   title: string;
@@ -17,6 +18,7 @@ export interface IOffer {
   adults: number;
   price: number;
   conveniences: EConvinience[];
-  authorID: string;
+  // authorID: string;
+  author: TUser,
   commentsCount: number;
 }

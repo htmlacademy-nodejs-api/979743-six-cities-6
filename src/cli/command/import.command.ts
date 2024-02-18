@@ -1,5 +1,5 @@
 import { Command } from './command.interface.js';
-import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD, IMPORT_COMMAND } from './consts.js';
+import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD, IMPORT_COMMAND } from './command.consts.js';
 import { TSVFileReader } from '../../libs/file-reader/tsv-file-reader.js';
 import { createOffer } from '../../helpers/offer.js';
 import { getErrorMessage } from '../../helpers/common.js';
@@ -34,7 +34,7 @@ export class ImportCommand implements Command {
 
   private async saveOffer(offer: IOffer) {
     const user = await this.userService.findOrCreate({
-      ...offer.user, // в оффере я храню только id автора, как мне передать сюда весь объект автора???
+      ...offer.author,
       password: DEFAULT_USER_PASSWORD,
     }, this.salt);
 
