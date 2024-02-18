@@ -9,7 +9,7 @@ export interface OfferEntity extends defaultClasses.Base {}
 
 modelOptions({
   schemaOptions: {
-    collection: 'users',
+    collection: 'offers',
     timestamps: true,
   }
 });
@@ -100,7 +100,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     ref: UserEntity,
     required: true,
   })
-  public authorID: Ref<UserEntity>;
+  public authorID: Ref<UserEntity>; // строка ID или объект user со всеми данными? // TODO
 
   @prop({default: 0})
   public commentsCount: number;

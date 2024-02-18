@@ -3,16 +3,15 @@ import { Logger } from '../libs/logger/index.js';
 import { Config } from '../libs/config/index.js';
 import { TRestSchema } from '../types/index.js';
 import { Component } from '../types/index.js';
-import { DatabaseClient } from '../libs/db-client/index.js';
+import { IDatabaseClient } from '../libs/db-client/index.js';
 import { getMongoURI } from '../helpers/index.js';
-// import { UserModel } from '../libs/models/user/user.entity.js';
 
 @injectable()
 export class RestApplication {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.Config) private readonly config: Config<TRestSchema>,
-    @inject(Component.DatabaseClient) private readonly databaseClient: DatabaseClient,
+    @inject(Component.IDatabaseClient) private readonly databaseClient: IDatabaseClient,
   ) {}
 
   private async initDb() {

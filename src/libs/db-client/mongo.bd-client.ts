@@ -1,7 +1,7 @@
 import * as Mongoose from 'mongoose';
 import { inject, injectable } from 'inversify';
-import { setTimeout } from 'timers/promises';
-import { DatabaseClient } from './db-client.interface.js';
+import { setTimeout } from 'node:timers/promises';
+import { IDatabaseClient } from './db-client.interface.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../logger/index.js';
 
@@ -9,7 +9,7 @@ const RETRY_COUNT = 5;
 const RETRY_TIMEOUT = 1000;
 
 @injectable()
-export class MongoDatabaseClient implements DatabaseClient {
+export class MongoDatabaseClient implements IDatabaseClient {
   private mongoose: typeof Mongoose;
   private isConnected: boolean;
 

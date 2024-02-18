@@ -1,6 +1,6 @@
 import { UserService } from './user-serice.interface.js';
 import { DocumentType, types } from '@typegoose/typegoose';
-import { UserEntity } from './user.entity.js';
+import { UserEntity, UserModel } from './user.entity.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { inject, injectable } from 'inversify';
 import { Component } from '../../../types/index.js';
@@ -17,7 +17,8 @@ export class DefaultUserService implements UserService {
     const user = new UserEntity(dto);
     user.setPassword(dto.password, salt);
 
-    const result = await this.userModel.create(user);
+    // const result = await this.userModel.create(user);
+    const result = await UserModel.create(user);
     this.logger.info(`New user created: ${user.email}`);
 
     return result; // TODO

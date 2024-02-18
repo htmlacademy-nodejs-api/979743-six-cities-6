@@ -5,7 +5,7 @@ import { createOffer } from '../../helpers/offer.js';
 import { getErrorMessage } from '../../helpers/common.js';
 import { DefaultUserService, UserModel, UserService } from '../../libs/models/user/index.js';
 import { DefaultOfferService, OfferModel, OfferService } from '../../libs/models/offer/index.js';
-import { DatabaseClient } from '../../libs/db-client/db-client.interface.js';
+import { IDatabaseClient } from '../../libs/db-client/db-client.interface.js';
 import { Logger } from '../../libs/logger/logger.interface.js';
 import { ConsoleLogger } from '../../libs/logger/console.logger.js';
 import { MongoDatabaseClient } from '../../libs/db-client/mongo.bd-client.js';
@@ -14,7 +14,7 @@ import { getMongoURI } from '../../helpers/database.js';
 export class ImportCommand implements Command {
   private userService: UserService;
   private offerServise: OfferService;
-  private databaseClient: DatabaseClient;
+  private databaseClient: IDatabaseClient;
   private logger: Logger;
   private salt: string;
 

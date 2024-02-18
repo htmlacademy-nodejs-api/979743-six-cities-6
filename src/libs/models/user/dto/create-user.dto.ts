@@ -4,6 +4,6 @@ export class CreateUserDto {
   public name: string;
   public email: string;
   public avatar: string;
-  public userType: EUserKind;
+  public userKind: EUserKind;
   public password: string;
 }

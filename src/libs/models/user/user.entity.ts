@@ -14,6 +14,14 @@ modelOptions({
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class UserEntity extends defaultClasses.TimeStamps implements TUser {
+  constructor(userData: TUser) {
+    super();
+    this.name = userData.name;
+    this.email = userData.email;
+    this.avatar = userData.avatar;
+    this.userKind = userData.userKind;
+  }
+
   @prop({ required: true })
   public name: string;
 
@@ -24,19 +32,19 @@ export class UserEntity extends defaultClasses.TimeStamps implements TUser {
   })
   public email: string;
 
-  @prop({ required: false, default: '' })
+  @prop({
+    required: false,
+    // match: [([/^\s]+(?=\.(jpg|png))\.\2), 'File extention is incorrect'], // TODO
+    default: '',
+  })
   public avatar?: string;
 
-  @prop({ required: true })
-  private password: string;
-
-  constructor(userData: TUser) {
-    super();
-    this.name = userData.name;
-    this.email = userData.email;
-    this.avatar = userData.avatar;
-    this.userType = userData.userType;
-  }
+  @prop({
+    required: true,
+    min: 6,
+    max: 12,
+  })
+  private password?: string;
 
   public setPassword(password: string, salt: string) {
     this.password = createSHA256(password, salt);
@@ -51,7 +59,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements TUser {
     type: () => String,
     enum: EUserKind
   })
-  public userType: EUserKind;
+  public userKind: EUserKind;
 }
 
 export const UserModel = getModelForClass(UserEntity);

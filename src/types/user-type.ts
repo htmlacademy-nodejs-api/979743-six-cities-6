@@ -6,5 +6,5 @@ export type TUser = {
   email: string;
   avatar?: string;
   // password: string;
-  userType: EUserKind;
+  userKind: EUserKind;
 }
