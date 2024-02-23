@@ -6,7 +6,7 @@ export class CreateOfferDto {
   public previewImg: string;
   public photos: string[];
   public isPremium: boolean;
-  public isFavorites: boolean;
+  // public isFavorites: boolean;
   public rating: number;
   public housingType: string;
   public rooms: number;
