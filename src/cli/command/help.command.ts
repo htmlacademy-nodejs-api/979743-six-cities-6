@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { Command } from './command.interface.js';
-import { HELP_COMMAND } from './consts.js';
+import { HELP_COMMAND } from './command.consts.js';
 
 export class HelpCommand implements Command {
   public get name(): string {

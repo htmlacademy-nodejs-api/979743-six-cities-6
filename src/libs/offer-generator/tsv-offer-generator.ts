@@ -1,8 +1,7 @@
-import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
 import { TMockServerData } from '../../types/index.js';
 import { getRandomItem, generateRandomValue } from '../../helpers/common.js';
-import { Price, WeekDay, MaxValue, MAX_COMMENT_COUNT, MAX_PHOTO_NUMBER, PHOTOS_COUNT } from './consts.js';
+import { Price, WeekDay, MaxValue, MAX_COMMENT_COUNT, MAX_PHOTO_NUMBER, PHOTOS_COUNT } from '../../const.js';
 
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: TMockServerData) {}

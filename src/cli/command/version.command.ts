@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Command } from './command.interface.js';
-import { VERSION_COMMAND } from './consts.js';
+import { VERSION_COMMAND } from './command.consts.js';
 
 type TPackageJSONConfig = {
   version: string;

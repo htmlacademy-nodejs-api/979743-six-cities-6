@@ -1,7 +1,6 @@
 import got from 'got';
-// import { appendFile } from 'node:fs';
 import { Command } from './command.interface.js';
-import { GENERATE_COMMAND } from './consts.js';
+import { GENERATE_COMMAND } from './command.consts.js';
 import { TMockServerData } from '../../types/index.js';
 import { TSVOfferGenerator } from '../../libs/offer-generator/index.js';
 import { getErrorMessage } from '../../helpers/common.js';
