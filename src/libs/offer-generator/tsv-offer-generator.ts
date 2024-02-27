@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
 import { TMockServerData } from '../../types/index.js';
 import { getRandomItem, generateRandomValue } from '../../helpers/common.js';
@@ -7,13 +9,14 @@ export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: TMockServerData) {}
 
   public generate(): string {
+    const offerID = nanoid();
     const name = getRandomItem<string>(this.mockData.name);
     const description = getRandomItem<string>(this.mockData.description);
     const createdDate = dayjs()
       .subtract(generateRandomValue(WeekDay.FIRST, WeekDay.LAST), 'day')
       .toISOString();
-    const city = getRandomItem<string>(this.mockData.city);
-    const previewImg = `${city}-image.jpg`;
+    const cityName = getRandomItem<string>(this.mockData.city);
+    const previewImg = `${cityName}-image.jpg`;
 
     const photos = Array.from(
       { length: PHOTOS_COUNT },
@@ -30,14 +33,19 @@ export class TSVOfferGenerator implements OfferGenerator {
       { length: generateRandomValue(1, this.mockData.conveniences.length) },
       () => this.mockData.conveniences[generateRandomValue(1, this.mockData.conveniences.length - 1)]
     ).join(';');
-    const author = getRandomItem<string>(this.mockData.users);
+    const authorID = nanoid();
+    const authorName = getRandomItem<string>(this.mockData.users);
+    const authorEmail = getRandomItem<string>(this.mockData.emails);
+    const authorAvatar = getRandomItem<string>(this.mockData.avatars);
+    const authorIsPro = getRandomItem<string>(['true', 'false']);
     const commentsCount = generateRandomValue(0, MAX_COMMENT_COUNT);
 
     return [
+      offerID,
       name,
       description,
       createdDate,
-      city,
+      cityName,
       previewImg,
       photos,
       isPremium,
@@ -48,7 +56,11 @@ export class TSVOfferGenerator implements OfferGenerator {
       adults,
       price,
       conveniences,
-      author,
+      authorID,
+      authorName,
+      authorEmail,
+      authorAvatar,
+      authorIsPro,
       commentsCount
     ]
       .join('\t');

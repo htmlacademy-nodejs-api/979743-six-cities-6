@@ -1,5 +1,5 @@
 import { defaultClasses, getModelForClass, prop, modelOptions } from '@typegoose/typegoose';
-import { TUser, EUserKind } from '../../../types/index.js';
+import { TUser } from '../../../types/index.js';
 import { createSHA256 } from '../../../helpers/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -16,11 +16,15 @@ modelOptions({
 export class UserEntity extends defaultClasses.TimeStamps implements TUser {
   constructor(userData: TUser) {
     super();
+    this.userID = userData.userID;
     this.name = userData.name;
     this.email = userData.email;
     this.avatar = userData.avatar;
-    this.userKind = userData.userKind;
+    this.isPro = userData.isPro;
   }
+
+  @prop({ required: true })
+  public userID: string;
 
   @prop({ required: true })
   public name: string;
@@ -54,12 +58,8 @@ export class UserEntity extends defaultClasses.TimeStamps implements TUser {
     return this.password;
   }
 
-  @prop({
-    required: true,
-    type: () => String,
-    enum: EUserKind
-  })
-  public userKind: EUserKind;
+  @prop({ required: true, })
+  public isPro: boolean;
 }
 
 export const UserModel = getModelForClass(UserEntity);

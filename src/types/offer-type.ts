@@ -4,6 +4,7 @@ import { EConvinience } from './convinience-type.js';
 import { TUser } from './user-type.js';
 
 export interface IOffer {
+  offerID: string;
   title: string;
   description: string;
   date: Date;

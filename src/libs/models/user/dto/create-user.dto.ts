@@ -1,9 +1,10 @@
-import { EUserKind } from '../../../../types/index.js';
+// import { EUserKind } from '../../../../types/index.js';
 
 export class CreateUserDto {
+  public userID: string;
   public name: string;
   public email: string;
   public avatar?: string;
-  public userKind: EUserKind;
+  public isPro: boolean;
   public password: string;
 }
