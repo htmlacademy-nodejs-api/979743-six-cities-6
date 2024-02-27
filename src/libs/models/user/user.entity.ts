@@ -43,11 +43,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements TUser {
   })
   public avatar?: string;
 
-  @prop({
-    required: true,
-    min: 6,
-    max: 12,
-  })
+  @prop({ required: true, })
   private password?: string;
 
   public setPassword(password: string, salt: string) {
