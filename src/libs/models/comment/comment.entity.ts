@@ -22,13 +22,13 @@ export class CommentEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    ref: UserEntity,
+    ref: () => UserEntity,
   })
   public authorID: Ref<UserEntity>;
 
   @prop({
     required: true,
-    ref: OfferEntity,
+    ref: () => OfferEntity,
   })
   public offerID: Ref<OfferEntity>;
 }

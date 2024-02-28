@@ -1,4 +1,4 @@
-import { IOffer, ECity, EHousingType, EConvinience } from '../types/index.js';
+import { IOffer, ECity, EHousingType, EConvinience, EUserKind } from '../types/index.js';
 import { toBoolean } from './common.js';
 
 export function createOffer(offerData: string): IOffer {
@@ -22,7 +22,7 @@ export function createOffer(offerData: string): IOffer {
     authorName,
     authorEmail,
     authorAvatar,
-    authorIsPro,
+    authorKind,
     commentsCount
   ] = offerData.replace('\n', '').split('\t');
 
@@ -48,7 +48,7 @@ export function createOffer(offerData: string): IOffer {
       name: authorName,
       email: authorEmail,
       avatar: authorAvatar,
-      isPro: authorIsPro === 'true',
+      userKind: authorKind as EUserKind,
     },
     commentsCount: Number.parseInt(commentsCount, 10),
   };

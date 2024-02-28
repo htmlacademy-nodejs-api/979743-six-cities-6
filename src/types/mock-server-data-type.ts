@@ -8,5 +8,5 @@ export type TMockServerData = {
   users: string[];
   emails: string[];
   avatars: string[];
-  userTypes: string[];
+  userKind: string[];
 }

@@ -37,7 +37,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const authorName = getRandomItem<string>(this.mockData.users);
     const authorEmail = getRandomItem<string>(this.mockData.emails);
     const authorAvatar = getRandomItem<string>(this.mockData.avatars);
-    const authorIsPro = getRandomItem<string>(['true', 'false']);
+    const authorKind = getRandomItem<string>(this.mockData.userKind);
     const commentsCount = generateRandomValue(0, MAX_COMMENT_COUNT);
 
     return [
@@ -60,7 +60,7 @@ export class TSVOfferGenerator implements OfferGenerator {
       authorName,
       authorEmail,
       authorAvatar,
-      authorIsPro,
+      authorKind,
       commentsCount
     ]
       .join('\t');

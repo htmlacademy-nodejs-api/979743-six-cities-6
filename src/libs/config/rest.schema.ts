@@ -45,6 +45,6 @@ export const configRestSchema = convict<TRestSchema>({
     doc: 'Database name (MongoDB)',
     format: String,
     env: 'DB_NAME',
-    default: 'six-cities_mongodb',
+    default: null,
   },
 });
