@@ -37,7 +37,7 @@ export class MongoDatabaseClient implements IDatabaseClient {
       try {
         this.mongoose = await Mongoose.connect(uri);
         this.isConnected = true;
-        this.logger.info('Database connection established.');
+        this.logger.info('Database connection established. URA!!!');
         return;
       } catch (error) {
         attempt++;
@@ -46,7 +46,7 @@ export class MongoDatabaseClient implements IDatabaseClient {
       }
     }
 
-    throw new Error(`Unable to establish database connection after ${RetryOptions.COUNT}`);
+    throw new Error(`Unable to establish database connection after ${RetryOptions.COUNT} attempts`);
   }
 
   public async disconnect(): Promise<void> {
