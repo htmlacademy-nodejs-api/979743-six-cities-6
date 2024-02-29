@@ -21,6 +21,7 @@ export function createOffer(offerData: string): IOffer {
     authorID,
     authorName,
     authorEmail,
+    authorPassword,
     authorAvatar,
     authorKind,
     commentsCount
@@ -47,6 +48,7 @@ export function createOffer(offerData: string): IOffer {
       userID: authorID,
       name: authorName,
       email: authorEmail,
+      password: authorPassword,
       avatar: authorAvatar,
       userKind: authorKind as EUserKind,
     },

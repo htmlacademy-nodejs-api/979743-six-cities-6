@@ -4,6 +4,7 @@ export type TUser = {
   userID: string;
   name: string;
   email: string;
+  password?: string;
   avatar?: string;
   userKind: EUserKind;
 }

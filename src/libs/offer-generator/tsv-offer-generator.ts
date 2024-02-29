@@ -36,6 +36,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const authorID = nanoid();
     const authorName = getRandomItem<string>(this.mockData.users);
     const authorEmail = getRandomItem<string>(this.mockData.emails);
+    const authorPassword = 'testPassword'; // TODO - ???
     const authorAvatar = getRandomItem<string>(this.mockData.avatars);
     const authorKind = getRandomItem<string>(this.mockData.userKind);
     const commentsCount = generateRandomValue(0, MAX_COMMENT_COUNT);
@@ -59,6 +60,7 @@ export class TSVOfferGenerator implements OfferGenerator {
       authorID,
       authorName,
       authorEmail,
+      authorPassword,
       authorAvatar,
       authorKind,
       commentsCount
