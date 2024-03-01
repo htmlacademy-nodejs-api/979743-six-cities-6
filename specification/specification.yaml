@@ -1,0 +1,483 @@
+openapi: 3.0.0
+info:
+  title: API сервер для демо-проекта «Шесть городов».
+  description: |-
+    * Список ресурсов и маршрутов сервера «Шесть городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+
+tags:
+  - name: offers
+    description: Действия с объявлениями.
+  - name: comments
+    description: Действия с комментариями.
+  - name: users
+    description: Действия с пользователем.
+
+paths:
+  /offers/new:
+    post:
+      tags:
+        - offers
+      summary: Создать новое предложение.
+      security:
+        - bearerAuth: []
+      description: Сохранаяет данные нового предложения. Создавать предложения могут только авторизованные пользователи.
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offerNew'
+        required: true
+      responses:
+        "201":
+          description: Предложение создано.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        "400":
+          description: Введенные данные некоректны.
+        "403":
+          description: Создавать прдложения могут только авторизованные пользователи.
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Загрузить список предложений
+      description: Возвращает массив предложений. Для авторизованного пользователя данные о предложениях содержат флаг isFavorite
+      responses:
+        "200":
+          description: Информация для отображения списка предложений.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Загрузить информацию о предложении.
+      description: Возвращает детальную информацию о предложении с идентификатором offerId. Для авторизованного пользователя данные о предложении содержат флаг isFavorite
+      responses:
+        "200":
+          description: Информация для отображения подробностей предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerDetails'
+        "404":
+          description: Предложения с таким идентификатором не существует.
+
+    patch:
+      tags:
+        - offers
+      summary: Редактировать предложение
+      security:
+        - bearerAuth: []
+      description: Сохраняет измененные данные предложения с идентификатором offerId.
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+        required: true
+      responses:
+        "200":
+          description: Предложение создано. Возвращает детальную информацию о предложении с последними изменениями.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        "400":
+          description: Введенные данные некоректны.
+        "403":
+          description: Нет прав для редактирования. Редактировать предложения могут только авторизованные пользователи и только свои предложения.
+
+    delete:
+      tags:
+        - offers
+      summary: Удалить данные о предложении с идентификатором offerId.
+      security:
+        - bearerAuth: []
+      description: Удаляет данные о предложении с идентификатором offerId.
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offerDelete'
+        required: true
+      responses:
+        "200":
+          description: Предложение удалено.
+        "400":
+          description: Предложения с таким идентификатором не существует.
+        "403":
+          description: Нет прав для удаления предложения. Удалять предложения могут только авторизованные пользователи и только свои предложения.
+
+  /offers/premium:
+    get:
+      tags:
+        - offers
+      summary: Получить список премиальных предложений для определённого города.
+      description: Возвращаетт список премиальных предложений для определённого города.
+      responses:
+        "200":
+          description: Информация для отображения списка премиальных предложений. Предложения с флагом «isPremium».
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+  /offers/favorites:
+    get:
+      tags:
+        - offers
+      summary: Получить список избранных предложений.
+      security:
+        - bearerAuth: []
+      description: Возвращает массив предложений, добавленных в избранное. Доступно только для авторизованных пользователей.
+      responses:
+        "200":
+          description: Информация для отображения списка избранных предложений. Предложения с флагом «isFavorite»
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+        "403":
+          description: Избранные предложения доступны только авторизованны опльзователям.
+
+  /offers/favorites/{offerId}/{status}:
+    get:
+      tags:
+        - offers
+      summary: Изменить статус избранного у предложения.
+      security:
+        - bearerAuth: []
+      description: Возвращает предложение с идентификатором offerId с актуальным состоянием поля isFavorite - status.
+      responses:
+        "200":
+          description: Cостояние поля isFavorite изменено.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerDetails'
+        "403":
+          description: Нет прав для редактирования. Менять статус поля isFavorite могут только авторизованные пользователи и только для своих предложений.
+
+  /comments/{offerId}:
+    get:
+      tags:
+        - comments
+      summary: Загрузить список комментариев для предложения с идентификатором offerId.
+      description: Возвращает список комментариев для предложения с идентификатором offerId.
+      responses:
+        "200":
+          description: Информация для отображения списка комментариев для прелдожения с идентификатором offerId.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+        "404":
+          description: Невозможно загрузить комментарии. Предложения с таким идентификатором не существует.
+
+    post:
+      tags:
+        - comments
+      summary: Добавить новый комментарий для предложения с идентификатором offerId.
+      security:
+        - bearerAuth: []
+      description: Сохраняет новый комментарий для предложения с идентификатором offerId.
+      requestBody:
+        description: Информация для создания нового комментария.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+        required: true
+      responses:
+        "200":
+          description: Комментария добавлен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        "400":
+          description: Введенные данные некоректны.
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Сохраняет данные нового пользователя.
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+        required: true
+      responses:
+        "201":
+          description: Данные нового пользователя сохранены. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "400":
+          description: Введенные данные некоректны.
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизовать пользователя на основе логина и пароля.
+      description: Выдает пользователю токен. Пользователь получает статус `авторизован`.
+      requestBody:
+        description: Информация для авторизации пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userLogin'
+        required: true
+      responses:
+        "200":
+          description: Пользователь авторизован. Токен для пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "400":
+          description: Неверный логин и/или пароль, отправленные данные не проходят валидацию.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userError'
+
+    get:
+      tags:
+        - users
+      summary: Проверить статус авторизации пользователя
+      security:
+        - bearerAuth: []
+      description: Возвращает информацию о статусе авторизации пользователя.
+      responses:
+        "200":
+          description: Пользователь авторизован.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "400":
+          description: Неверный логин и/или пароль.
+
+  /users/logout:
+    delete:
+      tags:
+        - users
+      summary: Завершить сеанс пользователя, выйти из закрытой части приложения.
+      description: Удаляет выданный пользователю токен. Пользователь получает статус `не авторизован`.
+      responses:
+        "204":
+          description: Выданный пользователю токен удален. Сеанс завершен.
+
+components:
+  schemas:
+    offerNew:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        description:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of city.
+        date:
+          type: string
+          example: 2024-02-20 18:00:00.000
+        city:
+          type: string
+          example: Amsterdam
+        preview:
+          type: string
+          example: house.jpg
+        photos:
+          type: string
+          example: [house1.jpg, house2.jpg, house3.jpg, house4.jpg, house5.jpg, house6.jpg]
+        isPremium:
+          type: boolean
+          example: true
+        housingType:
+          type: string
+          example: house
+        rooms:
+          type: number
+          example: 2
+        adults:
+          type: number
+          example: 2
+        price:
+          type: number
+          example: 150
+        conveniences:
+          type: array
+          example: [Breakfast, Air conditioning]
+        authorID:
+          type: string
+          example: 682146711-c28d-4121-82cd-e0b462a27f00
+
+    offerDetails:
+      type: object
+      properties:
+        allOf:
+          $ref: '#/components/schemas/offerNew'
+        id:
+          type: string
+          example: 6af6f711-c28d-4121-82cd-e0b462a27f00
+        commentsCount:
+          type: number
+          example: 15
+
+    offerDelete:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6af6f711-c28d-4121-82cd-e0b462a27f00
+
+    offer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6af6f711-c28d-4121-82cd-e0b462a27f00
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        date:
+          type: string
+          example: 2024-02-20 18:00:00.000
+        city:
+          type: string
+          example: Amsterdam
+        preview:
+          type: string
+          example: house.jpg
+        isPremium:
+          type: boolean
+          example: true
+        rating:
+          type: number
+          example: 4
+        housingType:
+          type: string
+          example: house
+        price:
+          type: number
+          example: 150
+        commentsCount:
+          type: number
+          example: 15
+
+    comment:
+      type: object
+      properties:
+        text:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        data:
+          type: string
+          example: 2024-02-20 18:00:00.000
+        rating:
+          type: number
+          example: 5
+
+    commentsList:
+      type: object
+      properties:
+        allOf:
+          $ref: '#/components/schemas/comment'
+
+    user:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Keks
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        avatar:
+          type: string
+          example: keks@htmlacademy.ru
+        password:
+          type: string
+          example: 123456
+        userKind:
+          type: string
+          example: pro
+
+    userCreated:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+    userLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        passord:
+          type: string
+          example: 123456
+
+    userToken:
+      type: object
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        passord:
+          type: string
+          example: 123456
+
+    userError:
+      type: object
+      properties:
+        errorType:
+          type: string
+          example: Validation error
+        message:
+          type: string
+          example: Ошибка введенных данных. Проверьте правильность логина и пароля
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+

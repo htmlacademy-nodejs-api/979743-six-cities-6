@@ -33,18 +33,18 @@ export const configRestSchema = convict<TRestSchema>({
     doc: 'Password to connect to the database',
     format: String,
     env: 'DB_PASSWORD',
-    default: null
+    default: null,
   },
   DB_PORT: {
     doc: 'Port to connect to the database (MongoDB)',
     format: 'port',
     env: 'DB_PORT',
-    default: '27017',
+    default: null,
   },
   DB_NAME: {
     doc: 'Database name (MongoDB)',
     format: String,
     env: 'DB_NAME',
-    default: 'six-ciies'
+    default: null,
   },
 });
