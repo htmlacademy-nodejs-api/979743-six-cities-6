@@ -6,7 +6,7 @@ import { DocumentType, types } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
-import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
+import { OfferLimits } from './offer.constant.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -29,11 +29,29 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
+  // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+  // const limit = count ?? OfferLimits.OFFER_COUNT;
+  //   return this.offerModel
+  //     .find({}, {}, {limit})
+  //     .populate(['authorID'])
+  //     .exec();
+  // }
+
   public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? DEFAULT_OFFER_COUNT;
+    const limit = count ?? OfferLimits.OFFER_COUNT;
     return this.offerModel
-      .find({}, {}, {limit})
-      .populate(['authorID'])
+      .aggregate([
+        {
+          $lookup: {
+            from: 'comments',
+            localField: 'authorID',
+            foreignField: '_id',
+            as: 'comments'
+          },
+        },
+        // { $unwind: '$comments' },
+        {$limit: limit}
+      ])
       .exec();
   }
 
