@@ -51,6 +51,7 @@ export function createOffer(offerData: string): IOffer {
       password: authorPassword,
       avatar: authorAvatar,
       userKind: authorKind as EUserKind,
+      favoritesOffers: [],
     },
     commentsCount: Number.parseInt(commentsCount, 10),
   };

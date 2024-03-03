@@ -6,4 +6,5 @@ export class UpdateUserDto {
   public avatar?: string;
   public userKind?: EUserKind;
   public password?: string;
+  public favoritesOffers: string[];
 }

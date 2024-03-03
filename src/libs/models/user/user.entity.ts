@@ -21,6 +21,7 @@ export class UserEntity extends defaultClasses.TimeStamps {
     this.email = userData.email;
     this.avatar = userData.avatar;
     this.userKind = userData.userKind;
+    this.favoritesOffers = [];
   }
 
   @prop({ required: true })
@@ -53,6 +54,12 @@ export class UserEntity extends defaultClasses.TimeStamps {
 
   @prop({ required: true, })
   public userKind: string;
+
+  @prop({
+    required: true,
+    type: () => [String],
+  })
+  public favoritesOffers: string[];
 }
 
 export const UserModel = getModelForClass(UserEntity);

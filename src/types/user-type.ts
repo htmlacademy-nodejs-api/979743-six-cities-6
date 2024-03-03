@@ -7,4 +7,5 @@ export type TUser = {
   password?: string;
   avatar?: string;
   userKind: EUserKind;
+  favoritesOffers: string[],
 }

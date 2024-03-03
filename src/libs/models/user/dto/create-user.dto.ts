@@ -5,4 +5,5 @@ export class CreateUserDto {
   public avatar?: string;
   public userKind: string;
   public password: string;
+  public favoritesOffers: string[];
 }

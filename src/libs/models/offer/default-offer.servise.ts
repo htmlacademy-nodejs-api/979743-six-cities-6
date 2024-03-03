@@ -7,6 +7,7 @@ import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { OfferLimits } from './offer.constant.js';
+import { Sorting } from '../../../const.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -29,31 +30,41 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-  // const limit = count ?? OfferLimits.OFFER_COUNT;
-  //   return this.offerModel
-  //     .find({}, {}, {limit})
-  //     .populate(['authorID'])
-  //     .exec();
-  // }
+  public async findByCity(city: string, count?: number): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count ?? OfferLimits.OFFER_COUNT;
+    return this.offerModel
+      .find({city: city}, {}, {limit})
+      .sort({ createdAt: Sorting.DOWN})
+      .populate(['authorID'])
+      .exec();
+  }
 
   public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? OfferLimits.OFFER_COUNT;
     return this.offerModel
-      .aggregate([
-        {
-          $lookup: {
-            from: 'comments',
-            localField: 'authorID',
-            foreignField: '_id',
-            as: 'comments'
-          },
-        },
-        // { $unwind: '$comments' },
-        {$limit: limit}
-      ])
+      .find({}, {}, {limit})
+      .sort({ createdAt: Sorting.DOWN})
+      .populate(['authorID'])
       .exec();
   }
+
+  // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+  //   const limit = count ?? OfferLimits.OFFER_COUNT;
+  //   return this.offerModel
+  //     .aggregate([
+  //       {$limit: limit},
+  //       {
+  //         $lookup: {
+  //           localField: 'authorID',
+  //           from: 'userentities',
+  //           foreignField: '_id',
+  //           as: 'author'
+  //         },
+  //       },
+  //       { $unwind: '$comments' },
+  //     ])
+  //     .exec();
+  // }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
