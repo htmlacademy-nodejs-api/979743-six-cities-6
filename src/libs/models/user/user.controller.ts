@@ -4,7 +4,7 @@ import { BaseController } from '../../../rest/controller/base-controller.abstrac
 import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
 import { HttpMethod } from '../../../rest/types/http-method.enum.js';
-import { CreateUserRequest } from './create-user-reques.typet.js';
+import { CreateUserRequest } from './create-user-reques.type.js';
 import { UserService } from './index.js';
 import { Config } from '../../config/index.js';
 import { TRestSchema } from '../../../types/rest-schema-type.js';
@@ -12,6 +12,7 @@ import { StatusCodes } from 'http-status-codes';
 import { HttpError } from '../../../rest/errors/http-error.js';
 import { fillDTO } from '../../../helpers/common.js';
 import { UserRdo } from './rdo/user.rdo.js';
+import { LoginUserRequest } from './login-user-request.type.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -23,6 +24,7 @@ export class UserController extends BaseController {
     super(logger);
     this.logger.info('Register routes for UserController...');
     this.addRoute({ path: '/register', method: HttpMethod.POST, handler: this.create});
+    this.addRoute({ path: '/login', method: HttpMethod.POST, handler: this.login});
   }
 
   public async create(
@@ -40,5 +42,25 @@ export class UserController extends BaseController {
 
     const result = await this.userService.create(body, this.configService.get('SALT'));
     this.created(res, fillDTO(UserRdo, result));
+  }
+
+  public async login(
+    { body }: LoginUserRequest,
+    _res: Response,
+  ): Promise<void> {
+    const existUser = await this.userService.findByEmail(body.email);
+    if (! existUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        `User with email ${body.email} not found.`,
+        'UserController',
+      );
+    }
+    // заглушка
+    throw new HttpError(
+      StatusCodes.NOT_IMPLEMENTED,
+      'Not implemented',
+      'UserController',
+    );
   }
 }

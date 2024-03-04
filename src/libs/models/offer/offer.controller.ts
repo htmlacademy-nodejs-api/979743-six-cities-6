@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
-import { BaseController } from '../../../rest/controller/base-controller.abstract.js';
+import { BaseController, HttpMethod } from '../../../rest/index.js';
 import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
-import { HttpMethod } from '../../../rest/types/http-method.enum.js';
+// import { HttpMethod } from '../../../rest/types/http-method.enum.js';
 import { OfferService } from './offer-service.interface.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { fillDTO } from '../../../helpers/common.js';
