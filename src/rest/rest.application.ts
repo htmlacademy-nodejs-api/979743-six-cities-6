@@ -10,6 +10,7 @@ import { getMongoURI } from '../helpers/index.js';
 // import { CommentService } from '../libs/models/comment/comment-service.interface.js';
 // import { UserService } from '../libs/models/user/user-serice.interface.js';
 import { Controller } from './controller/controller.interface.js';
+import { ExceptionFilter } from './exception-filter/exception-filter.interface.js';
 
 @injectable()
 export class RestApplication {
@@ -24,6 +25,7 @@ export class RestApplication {
     // @inject(Component.CommentService) private readonly commentService: CommentService,
     // @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.OfferController) private readonly offerController: Controller,
+    @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
 
   ) {
     this.server = express();
@@ -54,6 +56,10 @@ export class RestApplication {
     this.server.use(express.json());
   }
 
+  private async initExceptionFilters() {
+    this.server.use(this.appExceptionFilter.catch.bind(this.appExceptionFilter));
+  }
+
   public async init() {
     this.logger.info('Application initialization');
     this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
@@ -69,6 +75,10 @@ export class RestApplication {
     this.logger.info('Init controllers...');
     await this.initControllers();
     this.logger.info('Controller initialization completed');
+
+    this.logger.info('Init exception filters...');
+    await this.initExceptionFilters();
+    this.logger.info('Exception filters initialization compleated');
 
     this.logger.info('Try to init server...');
     await this.initServer();
