@@ -26,6 +26,7 @@ export class RestApplication {
     // @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.OfferController) private readonly offerController: Controller,
     @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
+    @inject(Component.UserController) private readonly userController: Controller,
 
   ) {
     this.server = express();
@@ -50,6 +51,7 @@ export class RestApplication {
 
   private async initControllers() {
     this.server.use('/offers', this.offerController.router);
+    this.server.use('/users', this.userController.router);
   }
 
   private async initMiddleware() {

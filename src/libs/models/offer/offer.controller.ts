@@ -16,7 +16,7 @@ export class OfferController extends BaseController {
     @inject(Component.OfferService) private readonly offerService: OfferService,
   ){
     super(logger);
-    this.logger.info('Register routes for OfferController…');
+    this.logger.info('Register routes for OfferController...');
     this.addRoute({ path: '/', method: HttpMethod.GET, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.POST, handler: this.create });
   }
