@@ -1,12 +1,11 @@
 export class CreateOfferDto {
   public title: string;
   public description: string;
-  public date: Date;
+  public date: string;
   public city: string;
   public previewImg: string;
   public photos: string[];
   public isPremium: boolean;
-  // public isFavorites: boolean;
   public rating: number;
   public housingType: string;
   public rooms: number;

@@ -5,6 +5,7 @@ import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
 import { HttpMethod } from '../../../rest/types/http-method.enum.js';
 import { OfferService } from './offer-service.interface.js';
+import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { fillDTO } from '../../../helpers/common.js';
 import { OfferRdo } from './index.js';
 
@@ -24,11 +25,11 @@ export class OfferController extends BaseController {
     const offers = await this.offerService.find();
     const responseData = fillDTO(OfferRdo, offers);
     this.ok(res, responseData);
-    // console.log(req);
   }
 
-  public create(_req: Request, _res: Response): void {
-
+  public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
+    const result = await this.offerService.create(body);
+    this.created(res, fillDTO(OfferRdo, result));
   }
 
 }

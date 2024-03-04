@@ -50,6 +50,10 @@ export class RestApplication {
     this.server.use('/offers', this.offerController.router);
   }
 
+  private async initMiddleware() {
+    this.server.use(express.json());
+  }
+
   public async init() {
     this.logger.info('Application initialization');
     this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
@@ -58,11 +62,15 @@ export class RestApplication {
     await this.initDb();
     this.logger.info('Init database completed');
 
+    this.logger.info('Init app-level middleware...');
+    await this.initMiddleware();
+    this.logger.info('App-level middleware initialization completed');
+
     this.logger.info('Init controllers...');
     await this.initControllers();
     this.logger.info('Controller initialization completed');
 
-    this.logger.info('Try to init server…');
+    this.logger.info('Try to init server...');
     await this.initServer();
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
 
