@@ -1,3 +1,5 @@
+import { ClassConstructor, plainToInstance } from 'class-transformer';
+
 export function toBoolean(str: string): boolean {
   if (str === 'true') {
     return true;
@@ -21,4 +23,8 @@ export function getRandomItem<T>(items: T[]):T {
 
 export function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : '';
+}
+
+export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
+  return plainToInstance(someDto, plainObject, { excludeExtraneousValues: true });
 }
