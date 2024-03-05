@@ -34,3 +34,8 @@ export enum UserNameLength {
 
 export const MAX_COMMENT_COUNT = 100; // TEMP - TODO
 export const MAX_PHOTO_NUMBER = 100; // TEMP - TODO
+
+export enum Sorting {
+  UP = 1,
+  DOWN = -1,
+}

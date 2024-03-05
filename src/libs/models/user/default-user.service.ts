@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto.js';
 import { inject, injectable } from 'inversify';
 import { Component } from '../../../types/index.js';
 import { Logger } from '../../logger/index.js';
+import { UpdateUserDto } from './dto/update-user.dto.js';
 
 @injectable()
 export class DefaultUserService implements UserService {
@@ -27,6 +28,10 @@ export class DefaultUserService implements UserService {
     return this.userModel.findOne({email});
   }
 
+  public async findById(id: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findOne({_id: id});
+  }
+
   public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
     const existedUser = await this.findByEmail(dto.email);
 
@@ -35,5 +40,19 @@ export class DefaultUserService implements UserService {
     }
 
     return this.create(dto, salt);
+  }
+
+  public async updateById(userID: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel
+      .findByIdAndUpdate(userID, dto, { new: true })
+      .exec();
+  }
+
+  public async updateFavorites(userID: string): Promise<DocumentType<UserEntity> | null> {
+    const user = await this.userModel
+      .findById(userID);
+    // const userFavorites = user?.favoritesOffers;
+
+    return user;
   }
 }

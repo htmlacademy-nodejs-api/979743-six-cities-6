@@ -26,7 +26,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public description!: string;
 
   @prop({ required: true })
-  public date!: Date;
+  public date!: string;
 
   @prop({ required: true, })
   public city!: string;
@@ -34,7 +34,10 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public previewImg!: string;
 
-  @prop({ required: true })
+  @prop({
+    required: true,
+    type: () => [String],
+  })
   public photos!: string[];
 
   @prop({ required: true })
@@ -55,11 +58,14 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public price!: number;
 
-  @prop({ required: true })
+  @prop({
+    required: true,
+    type: () => [String],
+  })
   public conveniences!: string[];
 
   @prop({
-    ref: UserEntity,
+    ref: () => UserEntity,
     required: true,
   })
   public authorID!: Ref<UserEntity>;

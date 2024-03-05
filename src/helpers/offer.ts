@@ -1,8 +1,9 @@
-import { IOffer, ECity, EHousingType, EConvinience } from '../types/index.js';
+import { IOffer, ECity, EHousingType, EConvinience, EUserKind } from '../types/index.js';
 import { toBoolean } from './common.js';
 
 export function createOffer(offerData: string): IOffer {
   const [
+    offerID,
     title,
     description,
     createdDate,
@@ -18,10 +19,16 @@ export function createOffer(offerData: string): IOffer {
     price,
     conveniences,
     authorID,
+    authorName,
+    authorEmail,
+    authorPassword,
+    authorAvatar,
+    authorKind,
     commentsCount
   ] = offerData.replace('\n', '').split('\t');
 
   return {
+    offerID,
     title,
     description,
     date: new Date(createdDate),
@@ -37,7 +44,15 @@ export function createOffer(offerData: string): IOffer {
     price: Number.parseInt(price, 10),
     conveniences: conveniences.split(';')
       .map((conv) => EConvinience[conv as 'BREAKFAST' | 'AIRCONDITIONING' | 'LAPTOPWORKSPACE' | 'BABYSEAT' | 'WASHER' | 'TOWELS' | 'FRIDGE']),
-    authorID,
+    author: {
+      userID: authorID,
+      name: authorName,
+      email: authorEmail,
+      password: authorPassword,
+      avatar: authorAvatar,
+      userKind: authorKind as EUserKind,
+      favoritesOffers: [],
+    },
     commentsCount: Number.parseInt(commentsCount, 10),
   };
 }
