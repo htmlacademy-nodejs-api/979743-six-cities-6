@@ -12,7 +12,7 @@ import { StatusCodes } from 'http-status-codes';
 import { HttpError } from '../../../rest/errors/http-error.js';
 import { fillDTO } from '../../../helpers/common.js';
 import { UserRdo } from './rdo/user.rdo.js';
-import { LoginUserRequest } from './login-user-request.type.js';
+import { LoginUserRequest, UpdateUserRequest } from './index.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -25,6 +25,7 @@ export class UserController extends BaseController {
     this.logger.info('Register routes for UserController...');
     this.addRoute({ path: '/register', method: HttpMethod.POST, handler: this.create});
     this.addRoute({ path: '/login', method: HttpMethod.POST, handler: this.login});
+    this.addRoute({ path: '/:offerID', method: HttpMethod.PATCH, handler: this.toggleFavorites});
   }
 
   public async create(
@@ -62,5 +63,13 @@ export class UserController extends BaseController {
       'Not implemented',
       'UserController',
     );
+  }
+
+  public async toggleFavorites(
+    { body }: UpdateUserRequest,
+    _res: Response,
+  ): Promise<void> {
+    // пока не знаю, как получить данные о текущем юзере
+    console.log('toggleFavorites', body);
   }
 }
