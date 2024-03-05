@@ -9,6 +9,7 @@ import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { fillDTO } from '../../../helpers/common.js';
 import { OfferRdo } from './index.js';
 import { StatusCodes } from 'http-status-codes';
+import { UpdateUserDto } from '../user/dto/update-user.dto.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -21,7 +22,7 @@ export class OfferController extends BaseController {
     this.addRoute({ path: '/', method: HttpMethod.GET, handler: this.index });
     this.addRoute({ path: '/new', method: HttpMethod.POST, handler: this.create });
     this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.details });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.DELETE, handler: this.delete });
+    this.addRoute({ path: '/:offerID', method: HttpMethod.PATCH, handler: this.update });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -58,7 +59,20 @@ export class OfferController extends BaseController {
         'OfferController'
       );
     }
-    this.ok(res, offerDeleted);
+    this.ok(res, offerDeleted); // как сделать, чтоб ничего не возвращать?
     this.logger.info(`offer ${req.params.offerID} deleted`);
+  }
+
+  public async update ({body, params}: Request, res: Response): Promise<void> { // как указать тип update-offer-dto для body?
+    const offerUpdate = await this.offerService.updateById(params.offerID, body);
+    if (!offerUpdate) { // как узнать, почему именно сервер не вернул данные? Надо обработать разные ошибки.
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id «${params.offerID}» not found.`,
+        'OfferController'
+      );
+    }
+    const responseData = fillDTO(OfferRdo, offerUpdate);
+    this.ok(res, responseData);
   }
 }
