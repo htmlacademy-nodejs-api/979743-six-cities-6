@@ -19,7 +19,6 @@ export interface IOffer {
   adults: number;
   price: number;
   conveniences: EConvinience[];
-  // authorID: string;
-  author: TUser, // что правильнее здсь хранить на уровне приложения: только ID или весь объект? //TODO
+  author: TUser,
   commentsCount: number;
 }

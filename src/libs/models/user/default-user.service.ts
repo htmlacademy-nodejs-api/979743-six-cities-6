@@ -51,8 +51,6 @@ export class DefaultUserService implements UserService {
   public async updateFavorites(userID: string): Promise<DocumentType<UserEntity> | null> {
     const user = await this.userModel
       .findById(userID);
-    // const userFavorites = user?.favoritesOffers;
-
     return user;
   }
 }

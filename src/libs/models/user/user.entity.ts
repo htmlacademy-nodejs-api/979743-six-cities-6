@@ -36,7 +36,6 @@ export class UserEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: false,
-    // match: [([/^\s]+(?=\.(jpg|png))\.\2), 'File extention is incorrect'], // TODO
     default: '',
   })
   public avatar?: string;

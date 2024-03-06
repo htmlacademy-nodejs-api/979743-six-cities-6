@@ -6,8 +6,19 @@ Content-Type: application/json
 ###
 
 ## Получить подробную информацию об оффере
-GET http://localhost:5000/offers/65e3294d799c63847c71334b HTTP/1.1
+GET http://localhost:5000/offers/65e3294d799c63847c713355 HTTP/1.1
 Content-Type: application/json
+
+###
+
+## Редактировать оффер
+PATCH http://localhost:5000/offers/65e3294d799c63847c713368 HTTP/1.1
+Content-Type: application/json
+
+{
+  "date": "Thu Feb 20 2024 14:00:00 GMT+0500 (Екатеринбург, стандартное время)",
+  "housingType": "hotel"
+}
 
 ###
 
@@ -25,8 +36,8 @@ Content-Type: application/json
   "title": "Canal View Prinsengracht",
   "description": "Newly Remodeled Dream Condominiun in Kifisia with Garden & Grass Lawn",
   "date": "Mon Feb 26 2024 18:26:46 GMT+0500 (Екатеринбург, стандартное время)",
-  "city": "Brussels",
-  "previewImg": "Brussels-image.jpg",
+  "city": "Hamburg",
+  "previewImg": "Hamburg-image.jpg",
   "photos": [
     "photo6.jpg",
     "photo36.jpg",

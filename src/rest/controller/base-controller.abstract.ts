@@ -9,20 +9,16 @@ import { DEFAULT_CONTENT_TYPE } from '../rest.constant.js';
 
 @injectable()
 export abstract class BaseController implements Controller {
-  private readonly _router: Router;
+  public readonly router: Router;
   constructor(
     protected readonly logger: Logger
   ) {
-    this._router = Router();
-  }
-
-  get router() {
-    return this._router;
+    this.router = Router();
   }
 
   public addRoute(route: IRoute) {
     const wrapperAsyncHandler = expressAsyncHandler(route.handler.bind(this));
-    this._router[route.method](route.path, wrapperAsyncHandler);
+    this.router[route.method](route.path, wrapperAsyncHandler);
     this.logger.info(`Route registered: ${route.method.toUpperCase()} ${route.path}`);
   }
 
