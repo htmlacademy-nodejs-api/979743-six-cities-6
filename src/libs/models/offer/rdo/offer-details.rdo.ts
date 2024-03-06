@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 import { UserRdo } from '../../user/rdo/user.rdo.js';
 
-export class OfferRdo {
+export class OfferDetailsRdo {
   @Expose()
   public id: string;
 
@@ -26,6 +26,9 @@ export class OfferRdo {
   @Expose()
   public isPremium: string;
 
+  // @Expose()
+  // public isFavorites: string; // ????
+
   @Expose()
   public rating: string;
 
@@ -33,7 +36,16 @@ export class OfferRdo {
   public housingType: string;
 
   @Expose()
+  public rooms: string;
+
+  @Expose()
+  public adults: string;
+
+  @Expose()
   public price: string;
+
+  @Expose()
+  public conveniences: string[];
 
   @Expose({ name: 'authorID'})
   @Type(() => UserRdo)

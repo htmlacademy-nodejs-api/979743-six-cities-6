@@ -5,11 +5,13 @@ import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
 import { HttpError } from '../../../rest/index.js';
 import { OfferService } from './offer-service.interface.js';
-import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { fillDTO } from '../../../helpers/common.js';
 import { OfferRdo } from './index.js';
+import { OfferDetailsRdo } from './rdo/offer-details.rdo.js';
 import { StatusCodes } from 'http-status-codes';
-import { UpdateUserDto } from '../user/dto/update-user.dto.js';
+import { CreateOfferRequest } from './types/create-offer-request.type.js';
+import { ParamOfferId } from './types/param-offerid.type.js';
+import { UpdateOfferDto } from './dto/update-offer.dto.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -21,7 +23,8 @@ export class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController...');
     this.addRoute({ path: '/', method: HttpMethod.GET, handler: this.index });
     this.addRoute({ path: '/new', method: HttpMethod.POST, handler: this.create });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.details });
+    this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.showDetails });
+    this.addRoute({ path: '/:offerID', method: HttpMethod.DELETE, handler: this.delete });
     this.addRoute({ path: '/:offerID', method: HttpMethod.PATCH, handler: this.update });
   }
 
@@ -31,22 +34,22 @@ export class OfferController extends BaseController {
     this.ok(res, responseData);
   }
 
-  public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
+  public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
     const result = await this.offerService.create(body);
     this.created(res, fillDTO(OfferRdo, result));
     this.logger.info('New offer created');
   }
 
-  public async details (req: Request, res: Response): Promise<void> {
-    const offerDetails = await this.offerService.findByID(req.params.offerID);
+  public async showDetails ({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
+    const offerDetails = await this.offerService.findByID(params.offerID);
     if(!offerDetails) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
-        `Offer with id «${req.params.offerID}» not found.`,
+        `Offer with id «${params.offerID}» not found.`,
         'OfferController'
       );
     }
-    const responseData = fillDTO(OfferRdo, offerDetails);
+    const responseData = fillDTO(OfferDetailsRdo, offerDetails);
     this.ok(res, responseData);
   }
 
@@ -59,11 +62,11 @@ export class OfferController extends BaseController {
         'OfferController'
       );
     }
-    this.ok(res, offerDeleted); // как сделать, чтоб ничего не возвращать?
+    this.noContent(res, offerDeleted);
     this.logger.info(`offer ${req.params.offerID} deleted`);
   }
 
-  public async update ({body, params}: Request, res: Response): Promise<void> { // как указать тип update-offer-dto для body?
+  public async update ({ body, params }: Request<ParamOfferId, unknown, UpdateOfferDto>, res: Response): Promise<void> {
     const offerUpdate = await this.offerService.updateById(params.offerID, body);
     if (!offerUpdate) { // как узнать, почему именно сервер не вернул данные? Надо обработать разные ошибки.
       throw new HttpError(
@@ -72,7 +75,7 @@ export class OfferController extends BaseController {
         'OfferController'
       );
     }
-    const responseData = fillDTO(OfferRdo, offerUpdate);
+    const responseData = fillDTO(OfferDetailsRdo, offerUpdate);
     this.ok(res, responseData);
   }
 }
