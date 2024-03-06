@@ -299,6 +299,20 @@ paths:
         "204":
           description: Выданный пользователю токен удален. Сеанс завершен.
 
+  /users/{offerId}:
+    patch:
+      tags:
+        - users
+      summary: Добавить/удалить оффер с идентификатором offerId в избранное.
+      description: Добавляет/удаляет id оффера с идентификатором offerId в массив поля favoritesOffers объекта user.
+      responses:
+        "200":
+          description: Данные пользователя обновлены. offerId добавлен/удален в поле favoritesOffers.
+        "404":
+          description: Оффера с идентификатором offerId не существует.
+        "403":
+          description: Добавлять/удалять предложения в Избранное могут только авторизованные пользователи.
+
 components:
   schemas:
     offerNew:
