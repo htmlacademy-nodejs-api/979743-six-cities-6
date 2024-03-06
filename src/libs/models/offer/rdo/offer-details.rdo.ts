@@ -30,9 +30,6 @@ export class OfferDetailsRdo {
   @Expose()
   public isPremium: string;
 
-  // @Expose()
-  // public isFavorites: string; // ????
-
   @Expose()
   public rating: string;
 

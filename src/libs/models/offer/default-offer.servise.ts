@@ -48,24 +48,6 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-  //   const limit = count ?? OfferLimits.OFFER_COUNT;
-  //   return this.offerModel
-  //     .aggregate([
-  //       {$limit: limit},
-  //       {
-  //         $lookup: {
-  //           localField: 'authorID',
-  //           from: 'userentities',
-  //           foreignField: '_id',
-  //           as: 'author'
-  //         },
-  //       },
-  //       { $unwind: '$comments' },
-  //     ])
-  //     .exec();
-  // }
-
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndDelete(offerId)
