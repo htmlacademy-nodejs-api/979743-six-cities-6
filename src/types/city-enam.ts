@@ -7,9 +7,16 @@ export enum ECity {
   DUSSELDORF = 'Dusseldorf'
 }
 
-type TLocation = {
+export type TLocation = {
   lat: string;
   lon: string;
+}
+
+export type TCityLocation = {
+  city: {
+    name: ECity;
+    location: TLocation;
+  }
 }
 
 export const CITIES: Record<ECity, TLocation> = {
@@ -37,4 +44,4 @@ export const CITIES: Record<ECity, TLocation> = {
     lat: '51.225402',
     lon: '6.776314'
   },
-};
+} as const;

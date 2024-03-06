@@ -25,7 +25,7 @@ export class UserController extends BaseController {
     this.logger.info('Register routes for UserController...');
     this.addRoute({ path: '/register', method: HttpMethod.POST, handler: this.create});
     this.addRoute({ path: '/login', method: HttpMethod.POST, handler: this.login});
-    this.addRoute({ path: '/:offerID', method: HttpMethod.PATCH, handler: this.toggleFavorites});
+    this.addRoute({ path: '/favorites/:offerID', method: HttpMethod.PATCH, handler: this.toggleFavorites});
   }
 
   public async create(

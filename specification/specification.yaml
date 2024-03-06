@@ -299,7 +299,7 @@ paths:
         "204":
           description: Выданный пользователю токен удален. Сеанс завершен.
 
-  /users/{offerId}:
+  /users/favorite/{offerId}:
     patch:
       tags:
         - users

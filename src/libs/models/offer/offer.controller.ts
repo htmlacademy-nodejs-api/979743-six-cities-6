@@ -36,7 +36,7 @@ export class OfferController extends BaseController {
 
   public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
     const result = await this.offerService.create(body);
-    this.created(res, fillDTO(OfferRdo, result));
+    this.created(res, fillDTO(OfferDetailsRdo, result));
     this.logger.info('New offer created');
   }
 
