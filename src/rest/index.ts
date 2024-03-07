@@ -9,3 +9,4 @@ export * from './errors/http-error.js';
 export * from './types/http-method.enum.js';
 export * from './types/request-body.type.js';
 export * from './types/request-params.type.js';
+export * from './types/request-query.type.js';

@@ -40,7 +40,7 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? OfferLimits.OFFER_COUNT;
+    const limit = count ? count : OfferLimits.OFFER_COUNT;
     return this.offerModel
       .find({}, {}, {limit})
       .sort({ createdAt: Sorting.DOWN})

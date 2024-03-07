@@ -28,22 +28,22 @@ export class OfferDetailsRdo {
   public photos: string[];
 
   @Expose()
-  public isPremium: string;
+  public isPremium: boolean;
 
   @Expose()
-  public rating: string;
+  public rating: number;
 
   @Expose()
   public housingType: string;
 
   @Expose()
-  public rooms: string;
+  public rooms: number;
 
   @Expose()
-  public adults: string;
+  public adults: number;
 
   @Expose()
-  public price: string;
+  public price: number;
 
   @Expose()
   public conveniences: string[];

@@ -117,7 +117,7 @@ paths:
               $ref: '#/components/schemas/offerDelete'
         required: true
       responses:
-        "200":
+        "204":
           description: Предложение удалено.
         "400":
           description: Предложения с таким идентификатором не существует.
@@ -178,7 +178,7 @@ paths:
         "403":
           description: Нет прав для редактирования. Менять статус поля isFavorite могут только авторизованные пользователи и только для своих предложений.
 
-  /comments/{offerId}:
+  /{offerId}/comments:
     get:
       tags:
         - comments
