@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
-import { BaseController, HttpMethod, HttpError, RequestQuery } from '../../../rest/index.js';
+import { BaseController, HttpMethod, HttpError, RequestQuery,ValidateObjectIdMiddleware } from '../../../rest/index.js';
 import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
 import { OfferService } from './offer-service.interface.js';
@@ -24,11 +24,12 @@ export class OfferController extends BaseController {
     super(logger);
     this.logger.info('Register routes for OfferController...');
     this.addRoute({ path: '/', method: HttpMethod.GET, handler: this.index });
+    this.addRoute({ path: '/premium', method: HttpMethod.GET, handler: this.getPremium });
     this.addRoute({ path: '/new', method: HttpMethod.POST, handler: this.create });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.showDetails });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.DELETE, handler: this.delete });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.PATCH, handler: this.update });
-    this.addRoute({ path: '/:offerID/comments', method: HttpMethod.GET, handler: this.getComments });
+    this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.showDetails, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
+    this.addRoute({ path: '/:offerID', method: HttpMethod.DELETE, handler: this.delete, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
+    this.addRoute({ path: '/:offerID', method: HttpMethod.PATCH, handler: this.update, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
+    this.addRoute({ path: '/:offerID/comments', method: HttpMethod.GET, handler: this.getComments, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
   }
 
   public async index(req: Request, res: Response): Promise<void> {
@@ -53,6 +54,12 @@ export class OfferController extends BaseController {
       );
     }
     const responseData = fillDTO(OfferDetailsRdo, offerDetails);
+    this.ok(res, responseData);
+  }
+
+  public async getPremium (_req: Request, res: Response): Promise<void> {
+    const offers = await this.offerService.findPremium();
+    const responseData = fillDTO(OfferRdo, offers);
     this.ok(res, responseData);
   }
 

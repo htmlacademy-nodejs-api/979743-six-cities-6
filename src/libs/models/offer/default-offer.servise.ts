@@ -30,8 +30,24 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
+  // public async findByID(offerID: string): Promise<DocumentType<OfferEntity> | null> {
+  //   return this.offerModel
+  //     .aggregate([
+  //       {
+  //         $lookup: {
+  //           localField: 'authorID',
+  //           from: 'userentities',
+  //           foreignField: '_id',
+  //           as: 'author'
+  //         },
+  //       },
+  //       {$unwind: 'author'}
+  //     ])
+  //     .exec();
+  // }
+
   public async findByCity(city: string, count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? OfferLimits.OFFER_COUNT;
+    const limit = count ? count : OfferLimits.OFFER_COUNT;
     return this.offerModel
       .find({city: city}, {}, {limit})
       .sort({ createdAt: Sorting.DOWN})
@@ -43,10 +59,52 @@ export class DefaultOfferService implements OfferService {
     const limit = count ? count : OfferLimits.OFFER_COUNT;
     return this.offerModel
       .find({}, {}, {limit})
-      .sort({ createdAt: Sorting.DOWN})
+      .sort({ date: Sorting.DOWN })
       .populate(['authorID'])
       .exec();
   }
+
+  public async findPremium(): Promise<DocumentType<OfferEntity>[]> {
+    const limit = OfferLimits.PREMIUM_COUNT;
+    return this.offerModel
+      .find({isPremium: true})
+      .sort({ date: Sorting.DOWN })
+      .limit(limit)
+      .populate(['authorID'])
+      .exec();
+  }
+
+  // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+  //   const limit = count ? count : OfferLimits.OFFER_COUNT;
+  //   return this.offerModel
+  //     .aggregate([
+  //       {$limit: limit},
+  //       {
+  //         $lookup: {
+  //           localField: '_id',
+  //           from: 'commententities',
+  //           foreignField: 'offerID',
+  //           as: 'comments'
+  //         },
+  //       },
+  //       {$project: {rating: 1}},
+  //       {
+  //         $lookup: {
+  //           localField: 'authorID',
+  //           from: 'userentities',
+  //           foreignField: '_id',
+  //           as: 'author'
+  //         },
+  //       },
+  //       {
+  //         $addFields: {
+  //           author: { $arrayElemAt: ['$users', 0] },
+  //         },
+  //       },
+  //       {$unwind: '$author'}
+  //     ])
+  //     .exec();
+  // }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
