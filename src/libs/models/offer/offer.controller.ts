@@ -1,6 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
-import { BaseController, HttpMethod, HttpError, RequestQuery,ValidateObjectIdMiddleware } from '../../../rest/index.js';
+import {
+  BaseController,
+  HttpMethod,
+  HttpError,
+  RequestQuery,
+  ValidateObjectIdMiddleware,
+  ValidateDtoMiddleware,
+} from '../../../rest/index.js';
 import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
 import { OfferService } from './offer-service.interface.js';
@@ -13,6 +20,7 @@ import { ParamOfferId } from './types/param-offerid.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentService } from '../comment/comment-service.interface.js';
 import { CommentRdo } from '../comment/rdo/comment.rdo.js';
+import { CreateOfferDto } from './dto/create-offer.dto.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -25,10 +33,23 @@ export class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController...');
     this.addRoute({ path: '/', method: HttpMethod.GET, handler: this.index });
     this.addRoute({ path: '/premium', method: HttpMethod.GET, handler: this.getPremium });
-    this.addRoute({ path: '/new', method: HttpMethod.POST, handler: this.create });
+    this.addRoute({
+      path: '/new',
+      method: HttpMethod.POST,
+      handler: this.create,
+      middlewares:[new ValidateDtoMiddleware(CreateOfferDto)]
+    });
     this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.showDetails, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
     this.addRoute({ path: '/:offerID', method: HttpMethod.DELETE, handler: this.delete, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.PATCH, handler: this.update, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
+    this.addRoute({
+      path: '/:offerID',
+      method: HttpMethod.PATCH,
+      handler: this.update,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerID'),
+        new ValidateDtoMiddleware(UpdateOfferDto)
+      ]
+    });
     this.addRoute({ path: '/:offerID/comments', method: HttpMethod.GET, handler: this.getComments, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
   }
 
