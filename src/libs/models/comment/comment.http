@@ -4,10 +4,10 @@ POST http://localhost:5000/comments/new HTTP/1.1
 Content-Type: application/json
 
 {
-  "text": "Пятый комментарий к офферу ",
-  "rating": "5",
+  "text": "Комментарий к офферу 65e3294d799c63847c71335d",
+  "rating": 5,
   "authorID": "65e3294d799c63847c713344",
-  "offerID": "65e3294d799c63847c71335a"
+  "offerID": "65e3294d799c63847c71335d"
 }
 
 ###

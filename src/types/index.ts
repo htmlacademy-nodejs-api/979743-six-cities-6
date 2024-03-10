@@ -8,3 +8,4 @@ export * from './mock-server-data-type.js';
 export * from './component-enum.js';
 export * from './rest-schema-type.js';
 export * from './user-kind-enam.js';
+export * from './document-exists.interface.js';

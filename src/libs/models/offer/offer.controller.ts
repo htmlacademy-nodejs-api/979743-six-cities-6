@@ -7,6 +7,7 @@ import {
   RequestQuery,
   ValidateObjectIdMiddleware,
   ValidateDtoMiddleware,
+  DocumentExistsMiddleware,
 } from '../../../rest/index.js';
 import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
@@ -40,7 +41,15 @@ export class OfferController extends BaseController {
       middlewares:[new ValidateDtoMiddleware(CreateOfferDto)]
     });
     this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.showDetails, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.DELETE, handler: this.delete, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
+    this.addRoute({
+      path: '/:offerID',
+      method: HttpMethod.DELETE,
+      handler: this.delete,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerID'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerID'),
+      ]
+    });
     this.addRoute({
       path: '/:offerID',
       method: HttpMethod.PATCH,
@@ -50,7 +59,15 @@ export class OfferController extends BaseController {
         new ValidateDtoMiddleware(UpdateOfferDto)
       ]
     });
-    this.addRoute({ path: '/:offerID/comments', method: HttpMethod.GET, handler: this.getComments, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
+    this.addRoute({
+      path: '/:offerID/comments',
+      method: HttpMethod.GET,
+      handler: this.getComments,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerID'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerID'),
+      ]
+    });
   }
 
   public async index(req: Request, res: Response): Promise<void> {
@@ -85,13 +102,6 @@ export class OfferController extends BaseController {
   }
 
   public async delete (req: Request, res: Response): Promise<void> {
-    if (! await this.offerService.exists(req.params.offerID)) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id «${req.params.offerID}» not found.`,
-        'OfferController'
-      );
-    }
     const offerDeleted = await this.offerService.deleteById(req.params.offerID);
     await this.commentService.deleteByOfferID(req.params.offerID);
     if (!offerDeleted) {
@@ -119,14 +129,6 @@ export class OfferController extends BaseController {
   }
 
   public async getComments ({ params, query }: Request<ParamOfferId, unknown, unknown, RequestQuery>, res: Response): Promise<void> {
-    if (! await this.offerService.exists(params.offerID)) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id «${params.offerID}» not found.`,
-        'OfferController'
-      );
-    }
-    console.log('limit value - ', query.limit);
     const comments = await this.commentService.findByOfferId(params.offerID, Number(query.limit));
     const responseData = fillDTO(CommentRdo, comments);
     this.ok(res, responseData);
