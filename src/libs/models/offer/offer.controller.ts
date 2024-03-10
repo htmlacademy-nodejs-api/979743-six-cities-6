@@ -32,15 +32,30 @@ export class OfferController extends BaseController {
   ){
     super(logger);
     this.logger.info('Register routes for OfferController...');
-    this.addRoute({ path: '/', method: HttpMethod.GET, handler: this.index });
-    this.addRoute({ path: '/premium', method: HttpMethod.GET, handler: this.getPremium });
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.GET,
+      handler: this.index
+    });
+    this.addRoute({
+      path: '/premium',
+      method: HttpMethod.GET,
+      handler: this.getPremium
+    });
     this.addRoute({
       path: '/new',
       method: HttpMethod.POST,
       handler: this.create,
       middlewares:[new ValidateDtoMiddleware(CreateOfferDto)]
     });
-    this.addRoute({ path: '/:offerID', method: HttpMethod.GET, handler: this.showDetails, middlewares: [new ValidateObjectIdMiddleware('offerID')] });
+    this.addRoute({
+      path: '/:offerID',
+      method: HttpMethod.GET,
+      handler: this.showDetails,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerID')
+      ]
+    });
     this.addRoute({
       path: '/:offerID',
       method: HttpMethod.DELETE,

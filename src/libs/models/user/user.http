@@ -28,3 +28,17 @@ Content-Type: application/json
 }
 
 ###
+
+## Отправить изображение
+
+POST http://localhost:5000/users/65e3294d799c63847c713344/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="screen.jpg"
+Content-Type: image/png
+
+< D:\PROJECTS\979743-six-cities-6\markup\img\apartment-02.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+##
