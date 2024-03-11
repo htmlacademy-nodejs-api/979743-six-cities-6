@@ -263,7 +263,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
         "400":
-          description: Неверный логин и/или пароль.
+          description: invalid token.
 
   /users/logout:
     delete:
