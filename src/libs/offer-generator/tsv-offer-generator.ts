@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
 import { TMockServerData } from '../../types/index.js';
 import { getRandomItem, generateRandomValue } from '../../helpers/common.js';
-import { Price, WeekDay, MaxValue, MAX_COMMENT_COUNT, MAX_PHOTO_NUMBER, PHOTOS_COUNT } from '../../const.js';
+import { Price, WeekDay, Rating, Rooms, Adults, MAX_COMMENT_COUNT, MAX_PHOTO_NUMBER, PHOTOS_COUNT } from '../../const.js';
 
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: TMockServerData) {}
@@ -24,10 +24,10 @@ export class TSVOfferGenerator implements OfferGenerator {
     ).join(';');
     const isPremium = getRandomItem<string>(['true', 'false']);
     const isFavorites = getRandomItem<string>(['true', 'false']);
-    const rating = generateRandomValue(1, MaxValue.RATING, 1);
+    const rating = generateRandomValue(Rating.MIN, Rating.MAX, 1);
     const housingType = getRandomItem<string>(this.mockData.housingType);
-    const rooms = generateRandomValue(1, MaxValue.ROOMS);
-    const adults = generateRandomValue(1, MaxValue.ADULTS);
+    const rooms = generateRandomValue(Rooms.MIN, Rooms.MAX);
+    const adults = generateRandomValue(Adults.MIN, Adults.MAX);
     const price = generateRandomValue(Price.MIN, Price.MAX);
     const conveniences = Array.from(
       { length: generateRandomValue(1, this.mockData.conveniences.length) },
@@ -36,7 +36,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const authorID = nanoid();
     const authorName = getRandomItem<string>(this.mockData.users);
     const authorEmail = getRandomItem<string>(this.mockData.emails);
-    const authorPassword = 'testPassword'; // TODO - ???
+    const authorPassword = 'testPassword';
     const authorAvatar = getRandomItem<string>(this.mockData.avatars);
     const authorKind = getRandomItem<string>(this.mockData.userKind);
     const commentsCount = generateRandomValue(0, MAX_COMMENT_COUNT);

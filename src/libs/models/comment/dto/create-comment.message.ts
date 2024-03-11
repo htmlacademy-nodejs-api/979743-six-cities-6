@@ -7,7 +7,7 @@ export const CommentValidationMessage = {
   },
 
   rating: {
-    minValue: `Minimum rating is ${Rating.MIN}`, //TODO 1 знак после запятой
+    minValue: `Minimum rating is ${Rating.MIN}`,
     maxValue: `Maximum rating is ${Rating.MAX}`,
   },
 

@@ -15,12 +15,6 @@ export enum WeekDay {
   LAST = 7,
 }
 
-export enum MaxValue { // TODO
-  RATING = 5,
-  ROOMS = 8,
-  ADULTS = 10,
-}
-
 export enum Rating {
   MIN = 1,
   MAX = 5,

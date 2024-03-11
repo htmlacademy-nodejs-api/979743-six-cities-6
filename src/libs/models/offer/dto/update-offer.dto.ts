@@ -26,7 +26,7 @@ export class UpdateOfferDto {
   public previewImg?: string;
 
   @IsOptional()
-  @IsArray({message: CreateOfferValidationMessage.photos.invalidFormat}) //TODO проверка длины массива = 6
+  @IsArray({message: CreateOfferValidationMessage.photos.invalidFormat})
   @ArrayMinSize(PHOTOS_COUNT, {message: CreateOfferValidationMessage.photos.minArrayLength})
   @ArrayMaxSize(PHOTOS_COUNT, {message: CreateOfferValidationMessage.photos.maxArrayLength})
   public photos?: string[];

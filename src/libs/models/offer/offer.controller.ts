@@ -175,7 +175,6 @@ export class OfferController extends BaseController {
         'OfferController'
       );
     }
-    console.log('foundedUser.favoritesOffers - ', foundedUser.favoritesOffers); // TODO
     const offers = await this.offerService.findFavorites(foundedUser.favoritesOffers);
     const responseData = fillDTO(OfferRdo, offers);
     this.ok(res, responseData);

@@ -21,13 +21,13 @@ export class CreateOfferDto {
 
   @IsArray({message: CreateOfferValidationMessage.photos.invalidFormat})
   @ArrayMinSize(PHOTOS_COUNT, {message: CreateOfferValidationMessage.photos.minArrayLength})
-  @ArrayMaxSize(PHOTOS_COUNT, {message: CreateOfferValidationMessage.photos.maxArrayLength}) // TODO соответствие расширений
+  @ArrayMaxSize(PHOTOS_COUNT, {message: CreateOfferValidationMessage.photos.maxArrayLength})
   public photos: string[];
 
   @IsBoolean()
   public isPremium: boolean;
 
-  @Min(Rating.MIN, {message: CreateOfferValidationMessage.rating.minValue}) //TODO 1 знак после запятой
+  @Min(Rating.MIN, {message: CreateOfferValidationMessage.rating.minValue})
   @Max(Rating.MAX, {message: CreateOfferValidationMessage.rating.maxValue})
   public rating: number;
 
@@ -43,14 +43,13 @@ export class CreateOfferDto {
   public adults: number;
 
   @Min(Price.MIN, {message: CreateOfferValidationMessage.price.minValue})
-  @Max(Price.MAX, {message: CreateOfferValidationMessage.price.maxValue}) // TODO - число с 1 знаком после запятой
+  @Max(Price.MAX, {message: CreateOfferValidationMessage.price.maxValue})
   public price: number;
 
   @IsArray({message: CreateOfferValidationMessage.conveniences.invalidFormat})
   @IsEnum(EConvinience, { each: true, message: CreateOfferValidationMessage.conveniences.invalid })
   public conveniences: string[];
 
-  // @IsMongoId({ message: CreateOfferValidationMessage.authorID.invalidId })
   public authorID: string;
 
   @IsInt({ message: CreateOfferValidationMessage.commentsCount.invalidFormat })

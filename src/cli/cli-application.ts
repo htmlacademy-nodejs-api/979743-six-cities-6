@@ -1,10 +1,10 @@
 import { Command } from './command/command.interface.js';
 import { CommandParser } from './command-parser.js';
-import { HELP_COMMAND } from './command/command.consts.js';
+import { CommandName } from './command/command.consts.js';
 
 export class CLIApplication {
   private commands: Record<string, Command> = {};
-  private readonly defaultCommand: string = HELP_COMMAND;
+  private readonly defaultCommand: string = CommandName.HELP;
 
   public registerCommands(commandList: Command[]): void {
     commandList.forEach((command) => {

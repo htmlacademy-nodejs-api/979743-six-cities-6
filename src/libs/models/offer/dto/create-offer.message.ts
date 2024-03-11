@@ -16,7 +16,7 @@ export const CreateOfferValidationMessage = {
   },
 
   city: {
-    invalid: 'City must be one of the 6: Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf', //TODO шабл строка, переменные перечисления
+    invalid: 'City must be one of the 6: Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf',
   },
 
   photos: {

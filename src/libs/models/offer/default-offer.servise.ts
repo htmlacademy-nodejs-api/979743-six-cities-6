@@ -59,52 +59,10 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async findFavorites(userFavorites: string[]): Promise<DocumentType<OfferEntity>[]> {
-    console.log('favorites offers are ', userFavorites); // TODO
+    console.log('favorites offers are ', userFavorites);
     const allOffers = await this.offerModel.find();
     return allOffers.filter((offer) => userFavorites.includes(offer.id));
   }
-
-  // public async findFavorites(userFavorites: string[]): Promise<DocumentType<OfferEntity>[]> {
-  //   console.log('favorites offers are ', userFavorites); // TODO
-  //   const favoritesOffers: DocumentType<OfferEntity>[] = [];
-  //   userFavorites.map((offerId) => {
-  //     const favoriteOffer = this.offerModel.findById({_id: offerId});
-  //     favoritesOffers.push(favoriteOffer);
-  //   });
-  //   return favoritesOffers;
-  // }
-
-  // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> // TODO {
-  //   const limit = count ? count : OfferLimits.OFFER_COUNT;
-  //   return this.offerModel
-  //     .aggregate([
-  //       {$limit: limit},
-  //       {
-  //         $lookup: {
-  //           localField: '_id',
-  //           from: 'commententities',
-  //           foreignField: 'offerID',
-  //           as: 'comments'
-  //         },
-  //       },
-  //       {$project: {rating: 1}},
-  //       {
-  //         $lookup: {
-  //           localField: 'authorID',
-  //           from: 'userentities',
-  //           foreignField: '_id',
-  //           as: 'author'
-  //         },
-  //       },
-  //       {
-  //         $addFields: {
-  //           author: { $arrayElemAt: ['$users', 0] },
-  //         },
-  //       },
-  //       {$unwind: '$author'}
-  //     ])
-  //     .exec();
-  // }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
