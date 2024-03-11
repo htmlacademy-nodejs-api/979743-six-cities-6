@@ -30,22 +30,29 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  public async findByCity(city: string, count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? OfferLimits.OFFER_COUNT;
+  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count ? count : OfferLimits.OFFER_COUNT;
     return this.offerModel
-      .find({city: city}, {}, {limit})
-      .sort({ createdAt: Sorting.DOWN})
+      .find({}, {}, {limit})
+      .sort({ date: Sorting.DOWN })
       .populate(['authorID'])
       .exec();
   }
 
-  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? OfferLimits.OFFER_COUNT;
+  public async findPremium(): Promise<DocumentType<OfferEntity>[]> {
+    const limit = OfferLimits.PREMIUM_COUNT;
     return this.offerModel
-      .find({}, {}, {limit})
-      .sort({ createdAt: Sorting.DOWN})
+      .find({isPremium: true})
+      .sort({ date: Sorting.DOWN })
+      .limit(limit)
       .populate(['authorID'])
       .exec();
+  }
+
+  public async findFavorites(userFavorites: string[]): Promise<DocumentType<OfferEntity>[]> {
+    console.log('favorites offers are ', userFavorites);
+    const allOffers = await this.offerModel.find();
+    return allOffers.filter((offer) => userFavorites.includes(offer.id));
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {

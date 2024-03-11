@@ -41,7 +41,7 @@ paths:
                 $ref: '#/components/schemas/offer'
         "400":
           description: Введенные данные некоректны.
-        "403":
+        "401":
           description: Создавать прдложения могут только авторизованные пользователи.
 
   /offers:
@@ -117,7 +117,7 @@ paths:
               $ref: '#/components/schemas/offerDelete'
         required: true
       responses:
-        "200":
+        "204":
           description: Предложение удалено.
         "400":
           description: Предложения с таким идентификатором не существует.
@@ -157,28 +157,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/offer'
-        "403":
+        "401":
           description: Избранные предложения доступны только авторизованны опльзователям.
 
-  /offers/favorites/{offerId}/{status}:
-    get:
-      tags:
-        - offers
-      summary: Изменить статус избранного у предложения.
-      security:
-        - bearerAuth: []
-      description: Возвращает предложение с идентификатором offerId с актуальным состоянием поля isFavorite - status.
-      responses:
-        "200":
-          description: Cостояние поля isFavorite изменено.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/offerDetails'
-        "403":
-          description: Нет прав для редактирования. Менять статус поля isFavorite могут только авторизованные пользователи и только для своих предложений.
-
-  /comments/{offerId}:
+  /{offerId}/comments:
     get:
       tags:
         - comments
@@ -192,33 +174,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/comment'
+                  $ref: '#/components/schemas/commentsList'
         "404":
           description: Невозможно загрузить комментарии. Предложения с таким идентификатором не существует.
-
-    post:
-      tags:
-        - comments
-      summary: Добавить новый комментарий для предложения с идентификатором offerId.
-      security:
-        - bearerAuth: []
-      description: Сохраняет новый комментарий для предложения с идентификатором offerId.
-      requestBody:
-        description: Информация для создания нового комментария.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/comment'
-        required: true
-      responses:
-        "200":
-          description: Комментария добавлен.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/comment'
-        "400":
-          description: Введенные данные некоректны.
 
   /users/register:
     post:
@@ -287,7 +245,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
         "400":
-          description: Неверный логин и/или пароль.
+          description: invalid token.
 
   /users/logout:
     delete:
@@ -304,14 +262,63 @@ paths:
       tags:
         - users
       summary: Добавить/удалить оффер с идентификатором offerId в избранное.
+      security:
+        - bearerAuth: []
       description: Добавляет/удаляет id оффера с идентификатором offerId в массив поля favoritesOffers объекта user.
       responses:
         "200":
           description: Данные пользователя обновлены. offerId добавлен/удален в поле favoritesOffers.
         "404":
           description: Оффера с идентификатором offerId не существует.
-        "403":
+        "401":
           description: Добавлять/удалять предложения в Избранное могут только авторизованные пользователи.
+
+  /users/{userId}/avatar:
+    patch:
+      tags:
+        - users
+      summary: Загрузить файл аватар пользователя с идентификатором userId.
+      security:
+        - bearerAuth: []
+      description: Загружает изображение аватара пользователя. Изображение аватара должно быть в формате `png` или `jpg`.
+      responses:
+        "200":
+          description: Данные пользователя обновлены. Аватар загружен.
+        "404":
+          description: Пользователя с идентификатором useId не существует.
+        "401":
+          description: Загружать аватар могут только авторизованные пользователи.
+
+  /comments/new:
+    post:
+      tags:
+        - users
+      summary: Добавить новый комментарий.
+      security:
+        - bearerAuth: []
+      description: Добавляет новый комментарий. Id оффера содержится в теле запроса.
+      requestBody:
+        description: Информация для создания комментария.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/commentNew'
+        required: true
+      responses:
+        "201":
+          description: Комментарий добавлен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/commentNew'
+        "400":
+          description: Отправленные данные не проходят валидацию.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataError'
+        "401":
+          description: Добавлять комментарии могут только авторизованные пользователи.
 
 components:
   schemas:
@@ -356,7 +363,7 @@ components:
           example: [Breakfast, Air conditioning]
         authorID:
           type: string
-          example: 682146711-c28d-4121-82cd-e0b462a27f00
+          example: 65e3294d799c63847c713362
 
     offerDetails:
       type: object
@@ -411,24 +418,34 @@ components:
           type: number
           example: 15
 
-    comment:
+    commentNew:
       type: object
       properties:
         text:
           type: string
           example: Beautiful & luxurious studio at great location
-        data:
-          type: string
-          example: 2024-02-20 18:00:00.000
         rating:
           type: number
           example: 5
+        offerID:
+          type: string
+          example: 65e3294d799c63847c713362
 
     commentsList:
       type: object
       properties:
-        allOf:
-          $ref: '#/components/schemas/comment'
+        text:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        rating:
+          type: number
+          example: 5
+        date:
+          type: string
+          example: 2024-03-08T12:00:00Z
+        authorID:
+          type: string
+          example: 65e3294d799c63847c713362
 
     user:
       type: object
@@ -489,9 +506,19 @@ components:
           type: string
           example: Ошибка введенных данных. Проверьте правильность логина и пароля
 
+    dataError:
+      type: object
+      properties:
+        errorType:
+          type: string
+          example: Validation error
+        message:
+          type: string
+          example: Ошибка введенных данных.
+
+
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-

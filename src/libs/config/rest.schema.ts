@@ -47,4 +47,22 @@ export const configRestSchema = convict<TRestSchema>({
     env: 'DB_NAME',
     default: null,
   },
+  UPLOAD_DIRECTORY: {
+    doc: 'Directory for upload files',
+    format: String,
+    env: 'UPLOAD_DIRECTORY',
+    default: null
+  },
+  JWT_SECRET: {
+    doc: 'Secret for sign JWT',
+    format: String,
+    env: 'JWT_SECRET',
+    default: null
+  },
+  JWT_EXPIRED: {
+    doc: 'Term of JWT',
+    format: String,
+    env: 'JWT_EXPIRED',
+    default: null
+  },
 });

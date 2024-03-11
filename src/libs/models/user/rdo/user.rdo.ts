@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import { EUserKind } from '../../../../types/user-kind-enam.js';
 
 export class UserRdo {
   @Expose()
@@ -14,7 +15,7 @@ export class UserRdo {
   public avatar: string;
 
   @Expose()
-  public userKind: string;
+  public userKind: EUserKind;
 
   @Expose()
   public favoritesOffers: string[];

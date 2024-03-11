@@ -5,6 +5,7 @@ import { Component } from '../../../types/component-enum.js';
 import { types, DocumentType } from '@typegoose/typegoose';
 import { CommentEntity } from './comment.entity.js';
 import { CreateCommentDto } from './dto/create-comment.dto.js';
+import { OfferLimits } from '../offer/offer.constant.js';
 @injectable()
 export class DefaultCommentService implements CommentService {
   constructor(
@@ -19,9 +20,10 @@ export class DefaultCommentService implements CommentService {
       .populate('authorID');
   }
 
-  public async findByOfferId(offerId: string): Promise<DocumentType<CommentEntity>[]> {
+  public async findByOfferId(offerId: string, count?: number): Promise<DocumentType<CommentEntity>[]> {
+    const limit = count ? count : OfferLimits.COMMENTS_COUNT;
     return this.commentModel
-      .find({offerId})
+      .find({offerID: offerId}, {}, {limit})
       .populate('authorID')
       .exec();
   }

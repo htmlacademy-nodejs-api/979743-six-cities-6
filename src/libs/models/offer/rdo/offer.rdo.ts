@@ -1,5 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 import { UserRdo } from '../../user/rdo/user.rdo.js';
+import { ECity } from '../../../../types/city-enam.js';
 
 export class OfferRdo {
   @Expose()
@@ -9,7 +10,7 @@ export class OfferRdo {
   public title: string;
 
   @Expose()
-  public city: string;
+  public city: ECity;
 
   @Expose()
   public description: string;
@@ -24,16 +25,19 @@ export class OfferRdo {
   public photos: string[];
 
   @Expose()
-  public isPremium: string;
+  public isPremium: boolean;
 
   @Expose()
-  public rating: string;
+  public isFavorite: boolean;
+
+  @Expose()
+  public rating: number;
 
   @Expose()
   public housingType: string;
 
   @Expose()
-  public price: string;
+  public price: number;
 
   @Expose({ name: 'authorID'})
   @Type(() => UserRdo)

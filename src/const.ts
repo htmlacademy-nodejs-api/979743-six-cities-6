@@ -1,6 +1,13 @@
+export const NUMBER_OF_OFFER_PHOTOS = 6;
+
 export enum Price {
   MIN = 100,
   MAX = 100000,
+}
+
+export enum PasswordLength {
+  MIN = 6,
+  MAX = 12,
 }
 
 export enum WeekDay {
@@ -8,10 +15,19 @@ export enum WeekDay {
   LAST = 7,
 }
 
-export enum MaxValue {
-  RATING = 5,
-  ROOMS = 8,
-  ADULTS = 10,
+export enum Rating {
+  MIN = 1,
+  MAX = 5,
+}
+
+export enum Rooms {
+  MIN = 1,
+  MAX = 8,
+}
+
+export enum Adults {
+  MIN = 1,
+  MAX = 10,
 }
 
 export const MIN_VALUE = 1;
@@ -30,6 +46,11 @@ export enum OfferDescriptionLength {
 export enum UserNameLength {
   MIN = 1,
   MAX = 15,
+}
+
+export enum CommentsLength {
+  MIN = 5,
+  MAX = 1024,
 }
 
 export const MAX_COMMENT_COUNT = 100;

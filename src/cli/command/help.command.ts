@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 import { Command } from './command.interface.js';
-import { HELP_COMMAND } from './command.consts.js';
+import { CommandName } from './command.consts.js';
 
 export class HelpCommand implements Command {
   public get name(): string {
-    return HELP_COMMAND;
+    return CommandName.HELP;
   }
 
   public async execute(..._parameters: string[]): Promise<void> {
