@@ -30,15 +30,6 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  public async findByCity(city: string, count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ? count : OfferLimits.OFFER_COUNT;
-    return this.offerModel
-      .find({city: city}, {}, {limit})
-      .sort({ createdAt: Sorting.DOWN})
-      .populate(['authorID'])
-      .exec();
-  }
-
   public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ? count : OfferLimits.OFFER_COUNT;
     return this.offerModel

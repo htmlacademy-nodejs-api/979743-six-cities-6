@@ -59,4 +59,10 @@ export const configRestSchema = convict<TRestSchema>({
     env: 'JWT_SECRET',
     default: null
   },
+  JWT_EXPIRED: {
+    doc: 'Term of JWT',
+    format: String,
+    env: 'JWT_EXPIRED',
+    default: null
+  },
 });
