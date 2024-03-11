@@ -47,6 +47,14 @@ export class OfferController extends BaseController {
       handler: this.getPremium
     });
     this.addRoute({
+      path: '/favorites',
+      method: HttpMethod.GET,
+      handler: this.getFavorites,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+    this.addRoute({
       path: '/new',
       method: HttpMethod.POST,
       handler: this.create,
@@ -92,18 +100,10 @@ export class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerID'),
       ]
     });
-    this.addRoute({
-      path: '/favorites',
-      method: HttpMethod.GET,
-      handler: this.getFavorites,
-      middlewares: [
-        new PrivateRouteMiddleware(),
-      ]
-    });
   }
 
-  public async index(req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find(Number(req.query.limit));
+  public async index({query}: Request, res: Response): Promise<void> {
+    const offers = await this.offerService.find(Number(query.limit));
     const responseData = fillDTO(OfferRdo, offers);
     this.ok(res, responseData);
   }
@@ -175,7 +175,7 @@ export class OfferController extends BaseController {
         'OfferController'
       );
     }
-    console.log('foundedUser.favoritesOffers - ', foundedUser.favoritesOffers);
+    console.log('foundedUser.favoritesOffers - ', foundedUser.favoritesOffers); // TODO
     const offers = await this.offerService.findFavorites(foundedUser.favoritesOffers);
     const responseData = fillDTO(OfferRdo, offers);
     this.ok(res, responseData);

@@ -59,9 +59,21 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async findFavorites(userFavorites: string[]): Promise<DocumentType<OfferEntity>[]> {
-    console.log('favorites offers are ', userFavorites[0]);
-    return this.offerModel.find({_id:'65e3294d799c63847c71335a'});
+    console.log('favorites offers are ', userFavorites); // TODO
+    const allOffers = await this.offerModel.find();
+    return allOffers.filter((offer) => userFavorites.includes(offer.id));
   }
+
+  // public async findFavorites(userFavorites: string[]): Promise<DocumentType<OfferEntity>[]> {
+  //   console.log('favorites offers are ', userFavorites); // TODO
+  //   const favoritesOffers: DocumentType<OfferEntity>[] = [];
+  //   userFavorites.map((offerId) => {
+  //     const favoriteOffer = this.offerModel.findById({_id: offerId});
+  //     favoritesOffers.push(favoriteOffer);
+  //   });
+  //   return favoritesOffers;
+  // }
+
   // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> // TODO {
   //   const limit = count ? count : OfferLimits.OFFER_COUNT;
   //   return this.offerModel
