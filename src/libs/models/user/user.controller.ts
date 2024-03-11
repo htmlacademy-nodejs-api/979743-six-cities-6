@@ -53,6 +53,14 @@ export class UserController extends BaseController {
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar')
       ]
     });
+    this.addRoute({
+      path: '/favorite/:offerID',
+      method: HttpMethod.PATCH,
+      handler: this.toggleFavorites,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
   }
 
   public async create(
@@ -103,5 +111,25 @@ export class UserController extends BaseController {
     this.created(res, {
       filepath: req.file?.path
     });
+  }
+
+  public async toggleFavorites({ tokenPayload, params }: Request, res: Response) {
+    const foundedUser = await this.userService.findByEmail(tokenPayload.email);
+
+    if (! foundedUser) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        'User not found',
+        'UserController'
+      );
+    }
+
+    if (foundedUser.favoritesOffers.includes(params.offerID)) {
+      foundedUser.favoritesOffers = foundedUser.favoritesOffers.filter((item) => item !== params.offerID);
+    } else {
+      foundedUser.favoritesOffers.push(params.offerID);
+    }
+    this.userService.updateById(tokenPayload.id, {favoritesOffers: foundedUser.favoritesOffers});
+    this.ok(res, fillDTO(UserRdo, foundedUser));
   }
 }

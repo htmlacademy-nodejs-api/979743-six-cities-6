@@ -160,24 +160,6 @@ paths:
         "401":
           description: Избранные предложения доступны только авторизованны опльзователям.
 
-  /offers/favorites/{offerId}/{status}:
-    get:
-      tags:
-        - offers
-      summary: Изменить статус избранного у предложения.
-      security:
-        - bearerAuth: []
-      description: Возвращает предложение с идентификатором offerId с актуальным состоянием поля isFavorite - status.
-      responses:
-        "200":
-          description: Cостояние поля isFavorite изменено.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/offerDetails'
-        "401":
-          description: Нет прав для редактирования. Менять статус поля isFavorite могут только авторизованные пользователи и только для своих предложений.
-
   /{offerId}/comments:
     get:
       tags:
@@ -540,4 +522,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
