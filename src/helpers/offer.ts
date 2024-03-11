@@ -1,5 +1,6 @@
 import { IOffer, ECity, EHousingType, EConvinience, EUserKind } from '../types/index.js';
 import { toBoolean } from './common.js';
+import { SCALE_OF_NOTATION } from './helpers.const.js';
 
 export function createOffer(offerData: string): IOffer {
   const [
@@ -37,11 +38,11 @@ export function createOffer(offerData: string): IOffer {
     photos: photos.split(';'),
     isPremium: toBoolean(isPremium),
     isFavorites: toBoolean(isFavorites),
-    rating: Number.parseInt(rating, 10),
+    rating: Number.parseInt(rating, SCALE_OF_NOTATION),
     housingType: housingType as EHousingType,
-    rooms: Number.parseInt(rooms, 10),
-    adults: Number.parseInt(adults,10),
-    price: Number.parseInt(price, 10),
+    rooms: Number.parseInt(rooms, SCALE_OF_NOTATION),
+    adults: Number.parseInt(adults,SCALE_OF_NOTATION),
+    price: Number.parseInt(price, SCALE_OF_NOTATION),
     conveniences: conveniences.split(';')
       .map((conv) => EConvinience[conv as 'BREAKFAST' | 'AIRCONDITIONING' | 'LAPTOPWORKSPACE' | 'BABYSEAT' | 'WASHER' | 'TOWELS' | 'FRIDGE']),
     author: {

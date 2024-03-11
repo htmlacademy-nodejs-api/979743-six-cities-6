@@ -1,5 +1,5 @@
 import { Command } from './command.interface.js';
-import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD, IMPORT_COMMAND } from './command.consts.js';
+import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD, CommandName } from './command.consts.js';
 import { TSVFileReader } from '../../libs/file-reader/tsv-file-reader.js';
 import { createOffer } from '../../helpers/offer.js';
 import { getErrorMessage } from '../../helpers/common.js';
@@ -29,7 +29,7 @@ export class ImportCommand implements Command {
   }
 
   public get name(): string {
-    return IMPORT_COMMAND;
+    return CommandName.IMPORT;
   }
 
   private async saveOffer(offer: IOffer) {
