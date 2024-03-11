@@ -1,4 +1,4 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsDateString, IsEnum, IsInt, IsMongoId, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsDateString, IsEnum, IsInt, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { OfferTitleLength, OfferDescriptionLength, PHOTOS_COUNT, Rating, Rooms, Adults, Price } from '../../../../const.js';
 import { CreateOfferValidationMessage } from './create-offer.message.js';
 import { ECity,EHousingType, EConvinience } from '../../../../types/index.js';
@@ -50,7 +50,7 @@ export class CreateOfferDto {
   @IsEnum(EConvinience, { each: true, message: CreateOfferValidationMessage.conveniences.invalid })
   public conveniences: string[];
 
-  @IsMongoId({ message: CreateOfferValidationMessage.authorID.invalidId })
+  // @IsMongoId({ message: CreateOfferValidationMessage.authorID.invalidId })
   public authorID: string;
 
   @IsInt({ message: CreateOfferValidationMessage.commentsCount.invalidFormat })

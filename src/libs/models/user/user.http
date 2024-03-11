@@ -5,12 +5,12 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Jack Torrance",
-  "email": "torans@overlook.net",
-  "avatar": "torrance.png",
+  "name": "John Wick",
+  "email": "j.wick@pisem.local",
+  "avatar": "wick.png",
   "userKind": "pro",
   "favoritesOffers": [],
-  "password": "shining"
+  "password": "john4444"
 }
 
 ###
@@ -21,6 +21,18 @@ Content-Type: application/json
 
 POST http://localhost:5000/users/login HTTP/1.1
 Content-Type: application/json
+
+{
+  "email": "j.wick@pisem.local",
+  "password": "john4444"
+}
+
+###
+
+## Проверить токен
+
+GET http://localhost:5000/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0NzBiYzM4M2UzMGRiNjc5ZGZhYzJkMiIsImlhdCI6MTY4NTk3NTQ4MiwiZXhwIjoxNjg2MTQ4MjgyfQ.Gq2-B1egouAnMxmXlR2ElVT6wCa97PS6lxzVI8LnGvo
 
 {
   "email": "torans@overlook.net",

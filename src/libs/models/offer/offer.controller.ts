@@ -8,6 +8,7 @@ import {
   ValidateObjectIdMiddleware,
   ValidateDtoMiddleware,
   DocumentExistsMiddleware,
+  PrivateRouteMiddleware,
 } from '../../../rest/index.js';
 import { Component } from '../../../types/component-enum.js';
 import { Logger } from '../../logger/logger.interface.js';
@@ -32,6 +33,7 @@ export class OfferController extends BaseController {
   ){
     super(logger);
     this.logger.info('Register routes for OfferController...');
+
     this.addRoute({
       path: '/',
       method: HttpMethod.GET,
@@ -46,7 +48,10 @@ export class OfferController extends BaseController {
       path: '/new',
       method: HttpMethod.POST,
       handler: this.create,
-      middlewares:[new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares:[
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
     this.addRoute({
       path: '/:offerID',
@@ -61,6 +66,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.DELETE,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerID'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerID'),
       ]
@@ -70,6 +76,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.PATCH,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerID'),
         new ValidateDtoMiddleware(UpdateOfferDto)
       ]
@@ -91,8 +98,8 @@ export class OfferController extends BaseController {
     this.ok(res, responseData);
   }
 
-  public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
-    const result = await this.offerService.create(body);
+  public async create({ body, tokenPayload }: CreateOfferRequest, res: Response): Promise<void> {
+    const result = await this.offerService.create({...body, authorID: tokenPayload.id});
     this.created(res, fillDTO(OfferDetailsRdo, result));
     this.logger.info('New offer created');
   }

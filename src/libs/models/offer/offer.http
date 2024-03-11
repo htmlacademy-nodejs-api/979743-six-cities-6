@@ -38,6 +38,7 @@ Content-Type: application/json
 ## Добавить новый оффер
 POST http://localhost:5000/offers/new HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imoud2lja0BwaXNlbS5sb2NhbCIsIm5hbWUiOiJKb2huIFdpY2siLCJpZCI6IjY1ZWVmOGIxMjVmOGY4MjdhZDkzMWNmMiIsImlhdCI6MTcxMDE2MTAzMywiZXhwIjoxNzEwMzMzODMzfQ.uoT_h8rCGxiXSf5d7YRTDc5kpW6A5gjoR64dlNu6f5k
 
 {
   "title": "Cove Landmark Pinnacle",
@@ -64,14 +65,13 @@ Content-Type: application/json
     "Washer",
     "Laptop friendly workspace"
     ],
-  "authorID": "65e3294d799c63847c71334e",
   "commentsCount": 128
 }
 
 ###
 
 ## Получить комментарии к офферу
-GET http://localhost:5000/offers/65e3294d799c63847c713352/comments?limit=3 HTTP/1.1
+GET http://localhost:5000/offers/65e3294d799c63847c713362/comments?limit=3 HTTP/1.1
 Content-Type: application/json
 
 ###
