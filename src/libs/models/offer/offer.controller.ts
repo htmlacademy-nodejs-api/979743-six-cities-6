@@ -23,13 +23,15 @@ import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentService } from '../comment/comment-service.interface.js';
 import { CommentRdo } from '../comment/rdo/comment.rdo.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
+import { UserService } from '../user/user-serice.interface.js';
 
 @injectable()
 export class OfferController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger:Logger,
     @inject(Component.OfferService) private readonly offerService: OfferService,
-    @inject(Component.CommentService) private readonly commentService: CommentService
+    @inject(Component.CommentService) private readonly commentService: CommentService,
+    @inject(Component.UserService) private readonly userService: UserService,
   ){
     super(logger);
     this.logger.info('Register routes for OfferController...');
@@ -88,6 +90,14 @@ export class OfferController extends BaseController {
       middlewares: [
         new ValidateObjectIdMiddleware('offerID'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerID'),
+      ]
+    });
+    this.addRoute({
+      path: '/favorites',
+      method: HttpMethod.GET,
+      handler: this.getFavorites,
+      middlewares: [
+        new PrivateRouteMiddleware(),
       ]
     });
   }
@@ -153,6 +163,21 @@ export class OfferController extends BaseController {
   public async getComments ({ params, query }: Request<ParamOfferId, unknown, unknown, RequestQuery>, res: Response): Promise<void> {
     const comments = await this.commentService.findByOfferId(params.offerID, Number(query.limit));
     const responseData = fillDTO(CommentRdo, comments);
+    this.ok(res, responseData);
+  }
+
+  public async getFavorites({tokenPayload}: Request, res: Response) {
+    const foundedUser = await this.userService.findByEmail(tokenPayload.email);
+    if (!foundedUser) {
+      throw new HttpError(
+        StatusCodes.NO_CONTENT,
+        `User «${tokenPayload.email}» has not favorits offers list.`,
+        'OfferController'
+      );
+    }
+    console.log('foundedUser.favoritesOffers - ', foundedUser.favoritesOffers);
+    const offers = await this.offerService.findFavorites(foundedUser.favoritesOffers);
+    const responseData = fillDTO(OfferRdo, offers);
     this.ok(res, responseData);
   }
 }

@@ -30,22 +30,6 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  // public async findByID(offerID: string): Promise<DocumentType<OfferEntity> | null> {
-  //   return this.offerModel
-  //     .aggregate([
-  //       {
-  //         $lookup: {
-  //           localField: 'authorID',
-  //           from: 'userentities',
-  //           foreignField: '_id',
-  //           as: 'author'
-  //         },
-  //       },
-  //       {$unwind: 'author'}
-  //     ])
-  //     .exec();
-  // }
-
   public async findByCity(city: string, count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ? count : OfferLimits.OFFER_COUNT;
     return this.offerModel
@@ -74,6 +58,10 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
+  public async findFavorites(userFavorites: string[]): Promise<DocumentType<OfferEntity>[]> {
+    console.log('favorites offers are ', userFavorites[0]);
+    return this.offerModel.find({_id:'65e3294d799c63847c71335a'});
+  }
   // public async find(count?: number): Promise<DocumentType<OfferEntity>[]> // TODO {
   //   const limit = count ? count : OfferLimits.OFFER_COUNT;
   //   return this.offerModel
